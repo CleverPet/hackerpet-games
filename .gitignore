@@ -1,0 +1,2 @@
+#ignore compiled firmware binaries
+*.bin
