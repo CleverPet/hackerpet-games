@@ -1,0 +1,10 @@
+{
+	"title": "hackerpet Games List",
+	"games": [{
+		"title": "hello-world",
+		"author": "Jelmer Tiete <jelmer@tiete.be>",
+		"description":"Example game for the hackerpet hub, hosted in the hackerpet-games repository.",
+		"type": "git",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-world"
+	}]
+}
