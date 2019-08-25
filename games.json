@@ -2,9 +2,23 @@
 	"title": "hackerpet Games List",
 	"games": [{
 		"title": "hello-world",
-		"author": "Jelmer Tiete <jelmer@tiete.be>",
-		"description":"Example game for the hackerpet hub, hosted in the hackerpet-games repository.",
-		"type": "git",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"Example game for the hackerpet hub, hosted on the hackerpet-games repository.",
+		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-world"
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal"
+	},
+	{
+		"title": "WhackAMole",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
+		"type": "build.particle.io",
+		"url": "https://go.particle.io/shared_apps/5d6229549628d800059f724d"
 	}]
 }

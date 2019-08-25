@@ -43,8 +43,8 @@ Make sure you update both the [games.md][games.md] and the
 [games.json][games.json] files. If you want to also include your source in this
 repository, you can make a new folder under the [games folder][games_folder]
 named after your game. The directory structure of your game should follow the
-standard Particle project structure. You can see an example in the
-[`hello-world`][hello_world] example-game folder.
+standard Particle project structure. You can see an example of the structure in
+the [`hello-world`][hello_world] game folder.
 
 ## Definitions
 
