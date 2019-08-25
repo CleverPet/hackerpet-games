@@ -1,6 +1,6 @@
 # hello-animal
 
-A Particle project named hello-world
+A Particle project named hello-animal
 
 ## Welcome to your project!
 

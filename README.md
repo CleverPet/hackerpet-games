@@ -1,4 +1,4 @@
-[Take me to the the games!][games.md]
+### [Take me to the the games!][games.md]
 
 ## hackerpet Games
 
