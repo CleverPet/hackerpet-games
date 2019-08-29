@@ -1,7 +1,6 @@
 {
 	"title": "hackerpet Games List",
 	"games": [{
-		"id":"62c0b0f193da4f41bfa33b676bfffd31",
 		"title": "hello-world",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Example game for the hackerpet hub, hosted on the hackerpet-games repository.",
@@ -11,7 +10,6 @@
 		"tags":["CleverPet"]
 	},
 	{
-		"id":"a2b1104d619a4542b76b712d7d9d52d6",
 		"title": "EatingTheFood",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Help your player get comfortable with the Hub’s sounds and movements.",
@@ -22,7 +20,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"22e42c0cae72428da3f8737801ec9d4a",
 		"title": "ExploringTheTouchpads",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"A foodtreat is offered, but the player will also earn a reward when they press a touchpad.",
@@ -33,7 +30,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"4268496e2478469da03fee3748129518",
 		"title": "EngagingConsistently",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Now your player will need to press a touchpad to earn a reward.",
@@ -44,7 +40,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"a8282b80b5e44435b5341ae34a183852",
 		"title": "AvoidingUnlitTouchpads",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player must learn that only pressing illuminated touchpads results in success.",
@@ -55,7 +50,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"ed32a0306b4647d0a23b30b248a5a6d0",
 		"title": "LearningTheLights",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Only one touchpad is illuminated in this challenge.",
@@ -66,7 +60,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"d332ddd02f3f422dbe5bd10ba10e5753",
 		"title": "MasteringTheLights",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Only one lit touchpad, and now your player will need to engage even more consistently.",
@@ -77,7 +70,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"77ed1f50858f4ae3a914eacf6979ef34",
 		"title": "RespondingQuickly",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player now has to press two touchpads in a row to solve one puzzle.",
@@ -88,7 +80,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"74deea23782343fb9aae1f64bbcdc158",
 		"title": "LearningBrightness",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"After the first press, your player will need to choose the brightest touchpad.",
@@ -99,7 +90,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"e94fe7b7de0f4b878a3430a6f10bdcfe",
 		"title": "LearningDoubleSequences",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player must press the brightest touchpad accurately twice in a row.",
@@ -110,7 +100,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"895e3fd17b0549e7a261980e45fd546a",
 		"title": "LearningLongerSequences",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player is challenged to complete patterns of up to nine moves in a row.",
@@ -121,7 +110,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"11e6388ab12c4d9abc496ed4e1af5e52",
 		"title": "MatchingTwoColors",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"The Hub introduces colors, your player’s job is to make all the touchpads match.",
@@ -132,7 +120,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"e32a078c955c45ecac65fad747724186",
 		"title": "MatchingMoreColors",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This challenge adds white to the mix, the number of solutions grows exponentially!",
@@ -143,7 +130,6 @@
 		"tags":["Original","CleverPet"]
 	},
 	{
-		"id":"06342480909644eb8eede22f6c215ec1",
 		"title": "hello-animal",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
@@ -154,7 +140,6 @@
 		"tags":["Community","CleverPet"]
 	},
 	{
-		"id":"55c416f7e8184984b89437e42d94cc93",
 		"title": "OneTwoThreeButtonGame",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This game can be useful during initial training of a player to use the Hub.",
@@ -165,7 +150,6 @@
 		"tags":["Community","CleverPet"]
 	},
 	{
-		"id":"dc39d8cee10d43f390ccf58087027593",
 		"title": "ColorMatchGame",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This challenge adds white to the mix, the number of solutions grows exponentially!",
@@ -176,7 +160,6 @@
 		"tags":["Community"]
 	},
 	{
-		"id":"a25946e24e874370a4a3cdc4f5264cd2",
 		"title": "WhackAMole",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"(hosted on build.particle.io) - This is a more \"active\" game for the Hub that challenges your player's \"paw-eye\" coordination.",
@@ -187,7 +170,6 @@
 		"tags":["Community","CleverPet"]
 	},
 	{
-		"id":"e9c6b0b20d874883bd386abffbe0be39",
 		"title": "WhackAMole",
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
