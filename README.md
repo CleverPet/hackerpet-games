@@ -1,6 +1,94 @@
-### [Take me to the the games!][games.md]
+# hackerpet Games List
 
-## hackerpet Games
+* ### Getting started games
+   These games are examples to get you started making your own games!
+   * [**hello-world**](./games/hello-world) - Example game for the hackerpet hub, hosted on the hackerpet-games repository.  
+      <sup>CleverPet <info@clever.pet></sup>
+
+   * [**hello-animal**](./games/hello-animal) - An introduction to the basics of building hackerpet
+        interactions.  
+      <sup>CleverPet <info@clever.pet></sup>
+
+* ### Standard Curriculum
+   These games are developed to get your player accustomed with the hackerpet
+   hub and are best played in this order. 
+   When the player becomes proficient at the current challenge, they can upgrade
+   to the next one!  
+
+   | | |  |  |
+   |:---|:--- | :--- | ---: |
+   | 0\. | [**EatingTheFood**](./games/EatingTheFood) | Help your player get comfortable with the Hub’s sounds and movements. | ![](./games/EatingTheFood/EatingTheFood.gif) |
+   | 1\. | [**ExploringTheTouchpads**](./games/ExploringTheTouchpads) | A foodtreat is offered, but the player will also earn a reward when they press a touchpad.  | ![](./games/ExploringTheTouchpads/ExploringTheTouchpads.gif) |
+   | 2\. | [**EngagingConsistently**](./games/EngagingConsistently) | Now your player will need to press a touchpad to earn a reward.  | ![](./games/EngagingConsistently/EngagingConsistently.gif) |
+   | 3\. | [**AvoidingUnlitTouchpads**](./games/AvoidingUnlitTouchpads) | Your player must learn that only pressing illuminated touchpads results in success.  | ![](./games/AvoidingUnlitTouchpads/AvoidingUnlitTouchpads.gif) |
+   | 4\. | [**LearningTheLights**](./games/LearningTheLights) | Only one touchpad is illuminated in this challenge.  | ![](./games/LearningTheLights/LearningTheLights.gif) |
+   | 5\. | [**MasteringTheLights**](./games/MasteringTheLights) | Only one lit touchpad, and now your player will need to engage even more consistently.  | ![](./games/MasteringTheLights/MasteringTheLights.gif) |
+   | 6\. | [**RespondingQuickly**](./games/RespondingQuickly) | Your player now has to press two touchpads in a row to solve one puzzle.  | ![](./games/RespondingQuickly/RespondingQuickly.gif) |
+   | 7\. | [**LearningBrightness**](./games/LearningBrightness) | After the first press, your player will need to choose the brightest touchpad.  | ![](./games/LearningBrightness/LearningBrightness.gif) |
+   | 8\. | [**LearningDoubleSequences**](./games/LearningDoubleSequences) | Your player must press the brightest touchpad accurately twice in a row.  | ![](./games/LearningDoubleSequences/LearningDoubleSequences.gif) |
+   | 9\. | [**LearningLongerSequences**](./games/LearningLongerSequences) | Your player is challenged to complete patterns of up to nine moves in a row.  | ![](./games/LearningLongerSequences/LearningLongerSequences.gif) |
+   | 10\.|  [**MatchingTwoColors**](./games/MatchingTwoColors) | The Hub introduces colors, your player’s job is to make all the touchpads match.  | ![](./games/MatchingTwoColors/MatchingTwoColors.gif) |
+   | 11\.|  [**MatchingMoreColors**](./games/MatchingMoreColors) | This challenge adds white to the mix, the number of solutions grows exponentially!  | ![](./games/MatchingMoreColors/MatchingMoreColors.gif) |
+
+
+
+   0\. [**EatingTheFood**](./games/EatingTheFood) - Help your player get comfortable with the Hub’s sounds and movements.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>  
+
+   1\. [**ExploringTheTouchpads**](./games/ExploringTheTouchpads) - A foodtreat is offered, but the player will also earn a reward when they press a touchpad.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   2\. [**EngagingConsistently**](./games/EngagingConsistently) - Now your player will need to press a touchpad to earn a reward.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   3\. [**AvoidingUnlitTouchpads**](./games/AvoidingUnlitTouchpads) - Your player must learn that only pressing illuminated touchpads results in success.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   4\. [**LearningTheLights**](./games/LearningTheLights) - Only one touchpad is illuminated in this challenge.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   5\. [**MasteringTheLights**](./games/MasteringTheLights) - Only one lit touchpad, and now your player
+    will need to engage even more consistently.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   6\. [**RespondingQuickly**](./games/RespondingQuickly) - Your player now has
+    to press two touchpads in a row to solve one puzzle.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   7\. [**LearningBrightness**](./games/LearningBrightness) - After the first press, your player will need to choose the brightest touchpad.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   8\. [**LearningDoubleSequences**](./games/LearningDoubleSequences) - Your player must press the brightest touchpad accurately twice in a row.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   9\. [**LearningLongerSequences**](./games/LearningLongerSequences) - Your player is challenged to complete patterns of up to nine moves in a row.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   10\. [**MatchingTwoColors**](./games/MatchingTwoColors) - The Hub introduces colors, your player’s job is to make all
+    the touchpads match.  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+   11\. [**MatchingMoreColors**](./games/MatchingMoreColors) - This challenge adds white to the mix, the number of solutions grows exponentially!  
+   &nbsp;&nbsp;&nbsp;&nbsp;<sup>CleverPet info@clever.pet</sup>
+
+* ### Community Submitted Games
+   These games were submitted by the community, you can too! Just create a pull request in this repository.
+   * [**WhackAMole**](https://go.particle.io/shared_apps/5d6229549628d800059f724d) (hosted on build.particle.io) - This is a more "active" game for the Hub that challenges your player's
+     "paw-eye" coordination.  
+   <sup>CleverPet <info@clever.pet></sup>
+   * [**WhackAMole**](./games/WhackAMole) - This is a more "active" game for the Hub that challenges your player's
+     "paw-eye" coordination.  
+   <sup>CleverPet <info@clever.pet></sup>
+   * [**ColorMatchGame**](./games/ColorMatchGame) - Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match.  
+   <sup>CleverPet <info@clever.pet></sup>
+   * [**OneTwoThreeButtonGame**](./games/OneTwoThreeButtonGame) - This game can be useful during initial training of a player to use the Hub.  
+   <sup>CleverPet <info@clever.pet></sup>
+
+
+--------
+
+
+# hackerpet Games
 
 The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
 automatically train and interact with other species. It's kind of like a "game
@@ -112,3 +200,7 @@ Whenever possible, please follow these contribution guidelines:
 [hello_world]: ./games/hello-world "Example game"
 [particle.io]: https://particle.io/ "Particle website"
 [CLA]: https://docs.google.com/forms/d/e/1FAIpQLSeXAajtFZpQ0VtHK2APtfzrA5w8DMNagJhCfLVr6h9lCQgj1g/viewform "Contributor License Agreement"
+
+<style type="text/css">
+    ol { list-style-type: decimal-leading-zero; }
+</style>

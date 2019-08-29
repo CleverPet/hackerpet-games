@@ -12,7 +12,8 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
 		"type": "github.com",
-		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal"
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
 	},
 	{
 		"title": "WhackAMole",
@@ -20,5 +21,85 @@
 		"description":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
 		"type": "build.particle.io",
 		"url": "https://go.particle.io/shared_apps/5d6229549628d800059f724d"
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
+	},
+	{
+		"title": "hello-animal",
+		"author": "CleverPet <hello@clever.pet>",
+		"description":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-animal",
+		"media": ""
 	}]
 }
