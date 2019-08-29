@@ -1,14 +1,6 @@
 # hackerpet Games List
 
-* ### Getting started games
-   These games are examples to get you started making your own games!
-
-   |||||
-   |:---|:---|:---|---|
-   | 0. | [**hello-world**](./games/hello-world) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | Example game for the hackerpet hub, hosted on the hackerpet-games repository. | ![]() |
-   | 1. | [**hello-animal**](./games/hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | An introduction to the basics of building hackerpet interactions. | ![]() |
-
-* ### Standard Curriculum
+* ### Learning How The Hackerpet Hub Works
    These games are developed to get your player accustomed with the hackerpet
    hub and are best played in this order. 
    When the player becomes proficient at the current challenge, they can upgrade
@@ -35,10 +27,11 @@
 
    |||||
    |:---|:---|:---|---|
-   | 0. | [**WhackAMole**](https://go.particle.io/shared_apps/5d6229549628d800059f724d) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | (hosted on build.particle.io) - This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | |
-   | 1. | [**WhackAMole**](./games/WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | |
-   | 2. | [**ColorMatchGame**](./games/ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | |
-   | 3. | [**OneTwoThreeButtonGame**](./games/OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This game can be useful during initial training of a player to use the Hub. | |
+   | 12. | [**hello-animal**](./games/hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | An introduction to the basics of building hackerpet interactions. | ![]() |
+   | 13. | [**OneTwoThreeButtonGame**](./games/OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This game can be useful during initial training of a player to use the Hub. | |
+   | 14. | [**ColorMatchGame**](./games/ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | |
+   | 15. | [**WhackAMole**](https://go.particle.io/shared_apps/5d6229549628d800059f724d) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | (hosted on build.particle.io) - This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | |
+   | 16. | [**WhackAMole**](./games/WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | |
 
 
 --------
@@ -156,7 +149,3 @@ Whenever possible, please follow these contribution guidelines:
 [hello_world]: ./games/hello-world "Example game"
 [particle.io]: https://particle.io/ "Particle website"
 [CLA]: https://docs.google.com/forms/d/e/1FAIpQLSeXAajtFZpQ0VtHK2APtfzrA5w8DMNagJhCfLVr6h9lCQgj1g/viewform "Contributor License Agreement"
-
-<style type="text/css">
-    ol { list-style-type: decimal-leading-zero; }
-</style>
