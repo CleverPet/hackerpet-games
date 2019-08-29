@@ -22,8 +22,9 @@
    | 11. | [**MatchingMoreColors**](./games/011_MatchingMoreColors) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This challenge adds white to the mix, the number of solutions grows exponentially!  | ![](./games/011_MatchingMoreColors/MatchingMoreColors.gif) |
 
 
-* ### Community Submitted Games These games were submitted by the community, you
-  can too! Just create a pull request in this repository.
+* ### Community Submitted Games
+   These games were submitted by the community, you can too! Just create a pull 
+   request in this repository.
 
    |||||
    |:---|:---|:---|---|
