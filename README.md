@@ -1,9 +1,9 @@
 # hackerpet games repository
 
-This is a compilation of games for the [hackerpet][hackerpet_repo] 
-modification of the CleverPet Hub. Install games to try out with your 
-dog or cat, suggest modifications to games, and share new games you've 
-made yourself!
+This is a compilation of games for [hackerpet][hackerpet_repo]-modified
+CleverPet Hubs. You'll find here games to try out with your dog or cat. 
+Feel free to suggest modifications to games or even add new games here that 
+you've made yourself!
 
 ### The Standard Curriculum to Teach your Player (dog, cat, pig, ...) to Use CleverPet
    These games are developed to get your player accustomed with the CleverPet Hub's 
