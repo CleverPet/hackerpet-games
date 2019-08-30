@@ -5,7 +5,7 @@ CleverPet Hubs. You'll find here games to try out with your dog or cat.
 Feel free to suggest modifications to games or even add new games here that 
 you've made yourself!
 
-### The Standard Curriculum to Teach your Player (dog, cat, pig, ...) to Use CleverPet
+### Games to Teach your Player (dog, cat, pig, ...) to Use CleverPet
    These games are developed to get your player accustomed with the CleverPet Hub's 
    touch interface, and are best played in the order below. 
    When the player becomes proficient at the current challenge, switch them
