@@ -1,6 +1,6 @@
 # hackerpet games repository
 
-Try them out with your dog or cat, suggest modifications, and 
+Install games to try out with your dog or cat, suggest modifications to games, and share new games you've made yourself!
 
 ### The Standard Curriculum to Teach your Player (dog, cat, pig, ...) to Use CleverPet
    These games are developed to get your player accustomed with the CleverPet Hub's 
