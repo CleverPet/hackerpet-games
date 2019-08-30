@@ -78,7 +78,7 @@ under the [games folder][games_folder] named after your game. The directory stru
 your game should follow the standard Particle project structure. You can see an
 example of the structure in the [`hello-world`][hello_world] game folder.
 
-# What's the CleverPet Hub? What's hackerpet? 
+## What's the CleverPet Hub? What's hackerpet? 
 
 The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
 automatically train and interact with other species. It's kind of like a "game
