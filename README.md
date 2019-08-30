@@ -39,25 +39,6 @@ Install games to try out with your dog or cat, suggest modifications to games, a
 
 --------
 
-
-# hackerpet Games
-
-The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
-automatically train and interact with other species. It's kind of like a "game
-console for dogs and cats".
-
-<p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
-
-The Hub is built on the [Particle][particle.io] platform, which means that the
-full suite of tools Particle has built can be used to control the CleverPet Hub.
-
-You can find the main Particle library to control the CleverPet Hub in the
-[hackerpet repository][hackerpet_repo] or on the
-[build.particle.io][particle_lib] website.
-
-This repository holds all the approved community-submitted games that can be installed 
-using hackerpet.
-
 ## How to install games
 
 You can find the full list of available games at the top of this document. (a
@@ -94,7 +75,24 @@ under the [games folder][games_folder] named after your game. The directory stru
 your game should follow the standard Particle project structure. You can see an
 example of the structure in the [`hello-world`][hello_world] game folder.
 
-## Definitions
+# What's the CleverPet Hub? What's hackerpet? 
+
+The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
+automatically train and interact with other species. It's kind of like a "game
+console for dogs and cats".
+
+<p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
+
+The Hub is built on the [Particle][particle.io] platform, and we've open-sourced CleverPet's
+player-training software on the Particle platform, which means that the
+full suite of tools Particle has built can be used to control the CleverPet Hub. 
+
+You can find the main Particle library to control the CleverPet Hub in the
+[hackerpet repository][hackerpet_repo] or on the
+[build.particle.io][particle_lib] website.
+
+
+## Glossary
 
 In the hackerpet libraries words such as "challenge", "interaction" etc. are used
 in specific ways:
