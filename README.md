@@ -1,10 +1,14 @@
-# hackerpet Games List
+# hackerpet games repository
 
-* ### Learning How The Hackerpet Hub Works
-   These games are developed to get your player accustomed with the hackerpet
-   hub and are best played in this order. 
-   When the player becomes proficient at the current challenge, they can upgrade
-   to the next one!
+This is a compilation of games for [hackerpet][hackerpet_repo]-modified
+CleverPet Hubs. You'll find here games to try out with your dog or cat. 
+Feel free to suggest modifications to games or even add new games here that 
+you've made yourself!
+
+### Games to Teach your Player (dog, cat, pig, ...) to Use CleverPet
+   CleverPet developed this sequence of games to teach players to use the CleverPet Hub's 
+   touch interface, and are best played in the order below. When the player becomes proficient
+   at the current challenge, switch them to the next one!
 
    |||||
    |:---|:---|:---|---|
@@ -22,10 +26,10 @@
    | 11. | [**MatchingMoreColors**](./games/011_MatchingMoreColors) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This challenge adds white to the mix, the number of solutions grows exponentially!  | ![](./games/011_MatchingMoreColors/MatchingMoreColors.gif) |
 
 
-* ### Community Submitted Games
-   These games were submitted by the community, you can too! Just create a pull 
-   request in this repository.
-
+### Community Contributed Games
+   Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
+   request to this repository. We'll commit all appropriate games. 
+   
    |||||
    |:---|:---|:---|---|
    | 12. | [**hello-animal**](./games/012_hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | An introduction to the basics of building hackerpet interactions. | ![]() |
@@ -37,25 +41,6 @@
 
 --------
 
-
-# hackerpet Games
-
-The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
-automatically train and interact with other species. It's kind of like a "game
-console for pets".
-
-<p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
-
-The Hub is built on the [Particle][particle.io] platform, which means that the
-full suite of tools Particle has built can be used to control the CleverPet Hub.
-
-You can find the main Particle library to control the CleverPet hub in the
-[hackerpet repository][hackerpet_repo] or on the
-[build.particle.io][particle_lib] website.
-
-This repository holds all the community submitted games that can be installed on
-the hackerpet hub.
-
 ## How to install games
 
 You can find the full list of available games at the top of this document. (a
@@ -64,26 +49,52 @@ The actual source code of the games can live in one of two places: either on
 [build.particle.io][build.particle] or in this repository under the
 [games][games_folder] folder.
 
-Once you picked your game and clicked on its link you can end up:
+Once you've picked your game and clicked on its link you can end up:
 *  on build.particle.io  
    Now you just click the `Copy This App` button and then hit the lightning bolt
    icon in the top left to install the game on your hub.
 *  in the games folder in this repository  
    To install this game you'll have to first clone or download this repository.
-   Then you can use the [particle-cli][particle_cli] or [Particle
-   workbench][particle_vsc] for VSC to send the new game to your hub.
+   Then you can use install the game to your Hub using one of:
+   1. [particle-cli][particle_cli], 
+   2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
+   3. [Particle Workbench][particle_vsc] (more sophisticated) for Visual Studio Code
 
 ## How to submit games
 
-You can add your own game to this list by simply submitting a pull request in
-this repository.  
-Make sure you update both this file and [games.json][games.json]. If you want to
-also include your source in this repository, you can make a new folder under the
-[games folder][games_folder] named after your game. The directory structure of
+You can add your own game to this list by simply submitting a pull request (PR) in
+this repository.
+A few guidelines for assuring a quick PR approval:
+* Please make sure you've tested the game and that you've succeeded at training a player to play it! 
+* Please make sure that the game/app isn't a duplicate of others already here
+* In your PR, make sure you update both this file and [games.json][games.json]
+* Please submit one game per PR :)
+* Ensure you've already completed the [CleverPet Individual
+Contributor License Agreement (CLA)][CLA], which is based on the Google CLA. 
+
+If you want to also include your source in this repository, you can make a new folder 
+under the [games folder][games_folder] named after your game. The directory structure of
 your game should follow the standard Particle project structure. You can see an
 example of the structure in the [`hello-world`][hello_world] game folder.
 
-## Definitions
+## What's the CleverPet Hub? What's hackerpet? 
+
+The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
+automatically train and interact with other species. It's kind of like a "game
+console for dogs and cats".
+
+<p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
+
+The Hub is built on the [Particle][particle.io] platform, and with **hackerpet** 
+we've open-sourced CleverPet's player-training software, which means that the full 
+suite of tools Particle has built can be used to control the CleverPet Hub. 
+
+You can find the main Particle library to control the CleverPet Hub in the
+[hackerpet repository][hackerpet_repo] or on the
+[build.particle.io][particle_lib] website.
+
+
+## Glossary
 
 In the hackerpet libraries words such as "challenge", "interaction" etc. are used
 in specific ways:
@@ -118,29 +129,13 @@ in specific ways:
    sometimes used interchangeably with "challenge", but which may consist of
    multiple challenges.
 
-## Contributing
-
-This is where things can get really fun. Want to add a new game, and perhaps see
-how the community, or dogs, or cats, respond to it? Create your own fork and
-submit a pull request. We'll chat about it as a community, and if it seems
-sensible we'll add it to the collection of games!
-
-To make this work, all contributors first have to sign the [CleverPet Individual
-Contributor License Agreement (CLA)][CLA], which is based on the Google CLA.
-This agreement provides the CleverPet team with a license to re-distribute your
-contributions.
-
-Whenever possible, please follow these contribution guidelines:
-- Keep each pull request small and focused on a single game, feature, or bug
-  fix.
-- Familiarize yourself with the code base, and follow the formatting principles
-  adhered to in the surrounding code.
 
 [hub]: https://github.com/CleverPet/HackerPet/blob/master/docs/images/hub1.png "Hackerpet hub"
 [cleverpet.io]: https://clever.pet/ "CleverPet website"
 [hackerpet_repo]: https://github.com/Cleverpet/HackerPet/ "hackerpet repository"
 [particle_lib]: https://build.particle.io/libs/hackerpet/0.2.2/tab/hackerpet.cpp "hackerpet library"
 [particle_cli]: https://docs.particle.io/tutorials/developer-tools/cli/ "Particle CLI"
+[particle_dev]: https://docs.particle.io/tutorials/developer-tools/dev/
 [particle_vsc]: https://www.particle.io/workbench/ "Particle workbench"
 [build.particle]: https://build.particle.io "Particle build environment"
 [games.json]: ./games.json "JSON games list"
