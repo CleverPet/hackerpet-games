@@ -57,7 +57,7 @@ Once you've picked your game and clicked on its link you can end up:
    To install this game you'll have to first clone or download this repository.
    Then you can use install the game to your Hub using one of:
    1. [particle-cli][particle_cli], 
-   2. [Particle IDE (DEV}[particle_dev] (slightly easier to use), or
+   2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
    3. [Particle workbench][particle_vsc] (more sophisticated) for Visual Studio Code
 
 ## How to submit games
