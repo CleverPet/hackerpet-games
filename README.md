@@ -6,10 +6,9 @@ Feel free to suggest modifications to games or even add new games here that
 you've made yourself!
 
 ### Games to Teach your Player (dog, cat, pig, ...) to Use CleverPet
-   These games are developed to get your player accustomed with the CleverPet Hub's 
-   touch interface, and are best played in the order below. 
-   When the player becomes proficient at the current challenge, switch them
-   to the next one!
+   CleverPet developed this sequence of games to teach players to use the CleverPet Hub's 
+   touch interface, and are best played in the order below. When the player becomes proficient
+   at the current challenge, switch them to the next one!
 
    |||||
    |:---|:---|:---|---|
