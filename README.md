@@ -1,6 +1,6 @@
 # hackerpet games repository
 
-This is a compilation of games for the [hackerpet][[hackerpet_repo] 
+This is a compilation of games for the [hackerpet][hackerpet_repo] 
 modification of the CleverPet Hub. Install games to try out with your 
 dog or cat, suggest modifications to games, and share new games you've 
 made yourself!
