@@ -58,7 +58,7 @@ Once you've picked your game and clicked on its link you can end up:
    Then you can use install the game to your Hub using one of:
    1. [particle-cli][particle_cli], 
    2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
-   3. [Particle workbench][particle_vsc] (more sophisticated) for Visual Studio Code
+   3. [Particle Workbench][particle_vsc] (more sophisticated) for Visual Studio Code
 
 ## How to submit games
 
