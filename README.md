@@ -87,9 +87,8 @@ console for dogs and cats".
 <p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
 
 The Hub is built on the [Particle][particle.io] platform, and with **hackerpet** 
-we've open-sourced CleverPet's player-training software on the Particle platform, 
-which means that the full suite of tools Particle has built can be used to control 
-the CleverPet Hub. 
+we've open-sourced CleverPet's player-training software, which means that the full 
+suite of tools Particle has built can be used to control the CleverPet Hub. 
 
 You can find the main Particle library to control the CleverPet Hub in the
 [hackerpet repository][hackerpet_repo] or on the
