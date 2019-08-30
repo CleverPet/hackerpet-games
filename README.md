@@ -1,8 +1,10 @@
-# hackerpet Games List
+# hackerpet games repository
 
-* ### Teaching Your Player (dog, cat, pig, ..) to Use CleverPet
-   These games are developed to get your player accustomed with the hackerpet
-   hub and are best played in the order below. 
+Try them out with your dog or cat, suggest modifications, and 
+
+### The Standard Curriculum to Teach your Player (dog, cat, pig, ...) to Use CleverPet
+   These games are developed to get your player accustomed with the CleverPet Hub's 
+   touch interface, and are best played in the order below. 
    When the player becomes proficient at the current challenge, switch them
    to the next one!
 
@@ -22,7 +24,7 @@
    | 11. | [**MatchingMoreColors**](./games/011_MatchingMoreColors) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This challenge adds white to the mix, the number of solutions grows exponentially!  | ![](./games/011_MatchingMoreColors/MatchingMoreColors.gif) |
 
 
-* ### Community Contributed Games
+### Community Contributed Games
    Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
    request to this repository. We'll commit all appropriate games. 
    
