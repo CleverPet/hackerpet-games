@@ -37,6 +37,7 @@ you've made yourself!
    | 14. | [**ColorMatchGame**](./games/014_ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | ![]() |
    | 15. | [**WhackAMole**](https://go.particle.io/shared_apps/5d6229549628d800059f724d) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | **(hosted on build.particle.io)** - This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
    | 16. | [**WhackAMole**](./games/016_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
+   | 17. | [**ControlPet**](./games/017_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
 
 
 --------
