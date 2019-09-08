@@ -35,7 +35,7 @@ void play(Game g) {
   yield_begin();
 //   yield_wait_for((hub.IsReady() && hub.FoodmachineState() == hub.FOODMACHINE_IDLE && not hub.AnyButtonPressed()),);
   yield_wait_for((not hub.AnyButtonPressed()),);
-  
+
   static bool waiting = true;
   static bool restart;
   static int rounds;
@@ -54,7 +54,7 @@ void play(Game g) {
       hub.SetLights(hub.LIGHT_BTNS, DIM, DIM, 0);
       refresh = millis();
     }
-      
+
     // wait until any valid button press
     yield();
     press = hub.AnyButtonPressed();
@@ -64,7 +64,7 @@ void play(Game g) {
       break;
     }
   }
-    
+
   // reinitializing
   restart = true;
   rounds = 0;
@@ -72,7 +72,7 @@ void play(Game g) {
   for (;;) {
     if (restart) {
       rounds++;
-  
+
       // reinitialize game for each round
       press = 0;
       foodtreat_state = 0;
@@ -82,14 +82,14 @@ void play(Game g) {
       hub.SetButtonAudioEnabled(true);
       hub.SetDIResetLock(true);
       g.on_round_start(colors);
-      
+
       hub.SetLights(hub.LIGHT_LEFT, g.colors[colors[0]][0], g.colors[colors[0]][1], 0);
       hub.SetLights(hub.LIGHT_MIDDLE, g.colors[colors[1]][0], g.colors[colors[1]][1], 0);
       hub.SetLights(hub.LIGHT_RIGHT, g.colors[colors[2]][0], g.colors[colors[2]][1], 0);
-      
+
       restart = false;
     }
-      
+
     // game logic updating and optimize light updates
     for (int i = 0; i < 3; i++) {
       temp_colors[i] = colors[i];
@@ -100,7 +100,7 @@ void play(Game g) {
         hub.SetLights(LIGHTS[i], g.colors[colors[i]][0], g.colors[colors[i]][1], 0);
       }
     }
-    
+
     // periodically refresh lights
     if (millis() > refresh + LIGHT_REFRESH) {
       hub.SetLights(hub.LIGHT_LEFT, g.colors[colors[0]][0], g.colors[colors[0]][1], 0);
@@ -108,7 +108,7 @@ void play(Game g) {
       hub.SetLights(hub.LIGHT_RIGHT, g.colors[colors[2]][0], g.colors[colors[2]][1], 0);
       refresh = millis();
     }
-  
+
     // handle only valid button presses
     yield();
     press = hub.AnyButtonPressed();
@@ -125,7 +125,7 @@ void play(Game g) {
       }
       yield_sleep_ms(TOUCHPAD_DELAY,);
       yield_wait_for((!hub.AnyButtonPressed()),);
-      
+
       turn_timestamp = millis();
       // game logic updating and optimize light updates
       for (int i = 0; i < 3; i++) {
@@ -180,80 +180,9 @@ void play(Game g) {
       break;
     }
   }
-  
+
   hub.SetButtonAudioEnabled(false);
   hub.SetDIResetLock(false);
 
   yield_finish();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //
-// // what the user writes is below this
-// //
-
-// // #include "header.h"
-
-// void setup() {
-//   hub.Initialize(__FILE__);
-// }
-
-// int color_a;
-// int color_b;
-// int answer;
-// int tries;
-
-// void loop() {
-//   hub.Run(20);
-
-//   play({
-//     .wait_after_game = true,
-//     .timeout_ms = 30000,
-//     .loss_timer_ms = 6000,
-//     .colors = {
-//       {90, 00},
-//       {00, 90},
-//       {70, 70},
-//     },
-//     .rounds_per_game = 2,
-//     .on_round_start = [](unsigned char* colors) {
-//       do {
-//         color_a = random(0, 3);
-//         color_b = random(0, 3);
-//       }
-//       while (color_a == color_b);
-//       answer = random(0, 3);
-//       colors[0] = color_a;
-//       colors[1] = color_a;
-//       colors[2] = color_a;
-//       colors[answer] = color_b;
-//       tries = 0;
-//     },
-//     .periodic_update = [](unsigned char* colors) {},
-//     .on_touch = [](unsigned char* colors, int pad) {
-//       tries++;
-//     },
-//     .did_pet_win = [](int pad) {
-//       return pad == answer;
-//     },
-//     .on_pet_win = []() {},
-//     .did_pet_lose = [](int pad) {
-//       return tries >= 2;
-//     },
-//     .on_pet_lose = []() {},
-//   });
-// }
