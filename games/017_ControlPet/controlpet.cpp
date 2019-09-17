@@ -29,10 +29,12 @@ unsigned char hubButtonPressed = 0;
 int hubFoodtreatDuration = 5000;
 
 
+int status_log_interval = 2000;
 unsigned long reinitialization_interval = 60000;
 
 unsigned long last_hub_action; //Remember when the last interaction has been done
 unsigned long last_timestamp;
+unsigned long last_status_log;
 unsigned long last_button_sent[3];
 
 
@@ -70,6 +72,7 @@ void setup()
 
     last_timestamp = millis();
     last_hub_action = last_timestamp;
+    last_status_log = last_timestamp;
     last_button_sent[0] = millis();
     last_button_sent[1] = millis();
     last_button_sent[2] = millis();
@@ -275,6 +278,11 @@ void loop()
             //Announce presence
             mgschwan_sendStringUDP(String::format("@shout:")+deviceID+":;", broadcastAddress);
             
+        }
+        if (millis() > last_status_log + status_log_interval)
+        {
+            Log.info("Main loop");
+            last_status_log = millis();
         }
 
         mgschwan_websocket_loop();
