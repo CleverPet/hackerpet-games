@@ -45,7 +45,7 @@ const char PlayerName[] = "Pet, Clever";
  * These constants (capitalized CamelCase) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 2; // starting level
+int currentLevel = 1; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
@@ -251,7 +251,7 @@ bool playSimon(){
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   touchDuringPresentation = false; //store if touchpad was touched during presentation phase
   dodoSoundPlayed = false;
-  
+
   Log.info("-------------------------------------------");
   Log.info("Starting new \"Simon\" challenge");
 
@@ -291,10 +291,12 @@ bool playSimon(){
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
   currentLevel, sequenceLength, countSuccesses(), countMisses());
   // log sequence
-  Log.info("sequence:");
-  for (int i = 0; i < sequenceLength; ++i){
-      Log.info(convertBitfieldToLetter(touchpad_sequence[i]));
-  }
+  
+  // String seq = "Sequence: ";
+  // for (int i = 0; i < sequenceLength; ++i){
+  //     seq += convertBitfieldToLetter(touchpad_sequence[i]);
+  // }
+  // Log.info(seq);
 
 //------------------------------------------------------------------------------
     // PRESENTATION PHASE
