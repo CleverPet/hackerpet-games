@@ -49,23 +49,21 @@ int currentLevel = 1; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
-const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio
-int sequenceLength = 1; // start sequence length
+const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_BLUE = 0; // [0-99]
 const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99]
 const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 5; // [0-99]
 const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 5; // [0-99]
-const int SLEW = 0; // slew for all lights
+const int SLEW = 0; // slew for all lights [0-99]
 const int TARGET_INTENSITY = 80; // [0-99]
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
 const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait until restarting the
                                                     // interaction
-const unsigned long INTER_GAME_DELAY = 5000;
+const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
 const double HINT_INTENSITY_MULTIPL[] = {1.00,0.30,0,0,1.00,1.00,1.00,1.00,1.00,
 							0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.5,0.2,0};
-
 const int END_ON_MISS_CHANCE_1[] = {100,0,25,100};
 const int END_ON_MISS_CHANCE_2[] = {0,15,20,25,30,35,40,45,50,55,60,65,70,75,85,100};
 const int END_ON_MISS_CHANCE_3[] = {0,40,50,55,60,65,70,75,80,85,90,95,100,100,100,100};
@@ -74,7 +72,8 @@ const int END_ON_MISS_CHANCE_3[] = {0,40,50,55,60,65,70,75,80,85,90,95,100,100,1
  * Global variables and constants
  * ------------------------------
  */
-const unsigned long SOUND_FOODTREAT_DELAY = 1200; // (ms) delay for reward sound
+const unsigned long SOUND_AUDIO_POSITIVE_DELAY = 350; // (ms) delay for reward sound
+const unsigned long SOUND_AUDIO_NEGATIVE_DELAY = 350;
 const unsigned long SOUND_TOUCHPAD_DELAY = 300; // (ms) delay for touchpad sound
 const unsigned long SOUND_DO_DELAY = 150; // (ms) delay for reward sound
 
@@ -225,10 +224,11 @@ bool playSimon(){
                                    hub.BUTTON_MIDDLE,
                                    hub.BUTTON_RIGHT};
   static unsigned char sequence_pos = 0;
-  static int hintIntensityMultipl = 0;
+  static double hintIntensityMultipl = 0;
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char pressedLog[SEQUENCE_LENGTHMAX] = {};  // could end up longer than sequence length, should use vector
+  static int sequenceLength = 0; // sequence length (gets calculated)
   static int pressedLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
   static int responseMisses = 0; // logging error touches during response phase
@@ -240,6 +240,7 @@ bool playSimon(){
   static bool dodoSoundPlayed = false;
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
+  sequenceLength = 0;
   timestampBefore = 0;
   timestampTouchpad = 0;
   gameStartTime = 0;
@@ -337,7 +338,7 @@ bool playSimon(){
     // yield_sleep_ms(SOUND_DO_DELAY+500, false);
     // extra delay between do sound and presentation of sequence and detect touches
     // yield_sleep_ms(500, false);
-  yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_DO_DELAY+1000,false);
+  yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_DO_DELAY+500,false);
   if(!hub.AnyButtonPressed()){
     // illuminate sequence
     for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos) {
@@ -345,7 +346,7 @@ bool playSimon(){
   		// play touchpad sound
   		hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
     	// give the Hub a moment to finish playing the sound and detect touches
-    	yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+500,false);
+    	yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+200,false);
     	if(hub.AnyButtonPressed()){break;}
     	
     	// turn off touchpad light
@@ -355,7 +356,7 @@ bool playSimon(){
 
   // yield_sleep_ms(1300, false);
   // wait time before response phase and detect touches
-  yield_wait_for_with_timeout(hub.AnyButtonPressed(), 1000,false);
+  yield_wait_for_with_timeout(hub.AnyButtonPressed(), 50,false);
   if(hub.AnyButtonPressed()){
     pressedLog[pressedLogIndex] = hub.AnyButtonPressed();
     pressedLogIndex++;
@@ -513,13 +514,19 @@ bool playSimon(){
 	}
 
   if (accurate) {
-    Log.info("Sequence correct, dispensing foodtreat");
+    Log.info("Sequence correct");
     hub.PlayAudio(hub.AUDIO_POSITIVE, 60);
     // give the Hub a moment to finish playing the reward sound
-    yield_sleep_ms(SOUND_FOODTREAT_DELAY, false);
+    yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
 
-    foodtreatPresented = true; // TODO implement reinforcment ratio
+    foodtreatPresented = (((int)(rand() % 100)) <= REINFORCE_RATIO);
     if(foodtreatPresented){
+      Log.info("Dispensing foodtreat");
+      
+      hub.PlayAudio(hub.AUDIO_POSITIVE, 60);
+      // give the Hub a moment to finish playing the reward sound
+      yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+
       do {
         foodtreatState=hub.PresentAndCheckFoodtreat(FOODTREAT_DURATION);
         yield(false);
@@ -534,12 +541,14 @@ bool playSimon(){
         Log.info("Treat was not eaten");
         foodtreatWasEaten = false;
       }
+    } else {
+      Log.info("No foodtreat this time (REINFORCE_RATIO)");
     }
   } else {
     if (!timeout) {
       hub.PlayAudio(hub.AUDIO_NEGATIVE, 60);
       // give the Hub a moment to finish playing the sound
-      yield_sleep_ms(SOUND_FOODTREAT_DELAY, false);
+      yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
       foodtreatWasEaten = false;
     }
   }
@@ -576,14 +585,14 @@ bool playSimon(){
     extra += "\",\"responseMisses\":\"";
     extra += String(responseMisses);    
     extra += "\",\"hintIntensity\":\"";
-    extra += String(hintIntensityMultipl*100); // is the same for whole seq in one level
+    extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
     
     extra += "}";
 
-    Log.info(extra);
+    // Log.info(extra);
 
     hub.Report(Time.format(gameStartTime,
                            TIME_FORMAT_ISO8601_FULL),  // play_start_time
