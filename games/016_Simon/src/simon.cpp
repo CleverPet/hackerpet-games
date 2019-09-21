@@ -45,10 +45,11 @@ const char PlayerName[] = "Pet, Clever";
  * These constants (capitalized CamelCase) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 1; // starting level
+int currentLevel = 6; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
+const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio
 int sequenceLength = 1; // start sequence length
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
@@ -216,20 +217,25 @@ int buttonToAudio(unsigned char button){
 bool playSimon(){
   yield_begin();
 
+  static const int SEQUENCE_LENGTHMAX = 20;
   static unsigned long timestampBefore, timestampTouchpad, gameStartTime, activityDuration = 0;
+  static unsigned long respTimes[SEQUENCE_LENGTHMAX] = {};
   static unsigned char foodtreatState = 99;
   static unsigned char touchpads[3]={hub.BUTTON_LEFT,
                                    hub.BUTTON_MIDDLE,
                                    hub.BUTTON_RIGHT};
   static unsigned char sequence_pos = 0;
-  static const int SEQUENCE_LENGTHMAX = 255;
+  static int hintIntensityMultipl = 0;
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
-  static unsigned char pressed[SEQUENCE_LENGTHMAX+1] = {};
+  static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
+  static unsigned char pressedLog[SEQUENCE_LENGTHMAX] = {};  // could end up longer than sequence length, should use vector
+  static int pressedLogIndex = 0;
+  static int presentMisses = 0; // logging error touches during present phase
+  static int responseMisses = 0; // logging error touches during response phase
   static bool accurate = false;
   static bool timeout = false;
+  static bool foodtreatPresented = false; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
-  static bool touchDuringPresentation = false;
-  static bool challengeComplete = false; // do not re-initialize
   static bool retrySequence = false; // do not re-initialize
   static bool dodoSoundPlayed = false;
   // Static variable and constants are only initialized once, and need to be re-initialized
@@ -243,14 +249,24 @@ bool playSimon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
-  // reset sequence, and pressed touchpads
-  // fill(touchpad_sequence, touchpad_sequence+SEQUENCE_LENGTHMAX, 0);
-  fill(pressed, pressed+SEQUENCE_LENGTHMAX+1, 0);
+  // reset pressed touchpads
+  fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
+  // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
+  // Log.info(String(sizeof(pressed)));
+  // Log.info(String(sizeof(respTimes)));
+  for (int i = 0; i<SEQUENCE_LENGTHMAX; i++){
+    respTimes[i]=0;
+  }
+
   accurate = false;
   timeout = false;
+  hintIntensityMultipl = 0;
+  foodtreatPresented = false; // store if foodtreat was presented in last interaction
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
-  touchDuringPresentation = false; //store if touchpad was touched during presentation phase
   dodoSoundPlayed = false;
+  pressedLogIndex = 0;
+  presentMisses = 0;//store if touchpad was touched during presentation phase
+  responseMisses = 0;
 
   Log.info("-------------------------------------------");
   Log.info("Starting new \"Simon\" challenge");
@@ -322,27 +338,33 @@ bool playSimon(){
     // extra delay between do sound and presentation of sequence and detect touches
     // yield_sleep_ms(500, false);
   yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_DO_DELAY+1000,false);
-  if(hub.AnyButtonPressed()){touchDuringPresentation = true;}
-  
-  // illuminate sequence
-  for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos) {
-  	hub.SetLights(touchpad_sequence[sequence_pos],TARGET_INTENSITY,TARGET_INTENSITY,SLEW);
-		// play touchpad sound
-		hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
-  	// give the Hub a moment to finish playing the sound and detect touches
-  	yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+500,false);
-  	if(hub.AnyButtonPressed()){touchDuringPresentation = true;}
-  	
-  	// turn off touchpad light
-  	hub.SetLights(touchpad_sequence[sequence_pos],0,0,SLEW);
+  if(!hub.AnyButtonPressed()){
+    // illuminate sequence
+    for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos) {
+    	hub.SetLights(touchpad_sequence[sequence_pos],TARGET_INTENSITY,TARGET_INTENSITY,SLEW);
+  		// play touchpad sound
+  		hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
+    	// give the Hub a moment to finish playing the sound and detect touches
+    	yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+500,false);
+    	if(hub.AnyButtonPressed()){break;}
+    	
+    	// turn off touchpad light
+    	hub.SetLights(touchpad_sequence[sequence_pos],0,0,SLEW);
+    }
   }
 
   // yield_sleep_ms(1300, false);
   // wait time before response phase and detect touches
   yield_wait_for_with_timeout(hub.AnyButtonPressed(), 1000,false);
-  if(hub.AnyButtonPressed()){touchDuringPresentation = true;}
+  if(hub.AnyButtonPressed()){
+    pressedLog[pressedLogIndex] = hub.AnyButtonPressed();
+    pressedLogIndex++;
+    presentMisses++;}
 
-    // turn off cue light
+  // turn off touchpad lights
+  hub.SetLights(hub.LIGHT_BTNS,0,0,SLEW);
+
+  // turn off cue light
 	// hub.SetLights(hub.LIGHT_CUE, 0, 0, SLEW);
 
 
@@ -360,7 +382,7 @@ bool playSimon(){
 		CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
 		SLEW);
 
-	if(!touchDuringPresentation){
+	if(!presentMisses){
 		// delay after turning cue light to white
 	    yield_sleep_ms(400, false);
 
@@ -371,19 +393,16 @@ bool playSimon(){
     	yield_wait_for((!hub.AnyButtonPressed()), false);
 
     	// turn on response hint, see game logic table for intensity calculation
-    	if (currentLevel < 5){
-    	hub.SetLights(
-    		touchpad_sequence[sequence_pos],
-    		(TARGET_INTENSITY*HINT_INTENSITY_MULTIPL[currentLevel-1]),
-    		(TARGET_INTENSITY*HINT_INTENSITY_MULTIPL[currentLevel-1]),
-    		SLEW);
-    	} else {
-    	hub.SetLights(
-    		touchpad_sequence[sequence_pos],
-    		(TARGET_INTENSITY*HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1]),
-    		(TARGET_INTENSITY*HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1]),
-    		SLEW);
-    	}
+      if (currentLevel < 5){
+       hintIntensityMultipl = HINT_INTENSITY_MULTIPL[currentLevel-1];
+      } else {
+       hintIntensityMultipl = HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1];
+      }
+      hub.SetLights(
+        touchpad_sequence[sequence_pos],
+        (TARGET_INTENSITY * hintIntensityMultipl),
+        (TARGET_INTENSITY * hintIntensityMultipl),
+        SLEW);
 
       // on first light in sequence, play DODO sound
       if (sequence_pos == 0 && !dodoSoundPlayed){
@@ -420,6 +439,12 @@ bool playSimon(){
 	    if (pressed[sequence_pos] != 0)
 	    {
         Log.info("Touchpad touched");
+
+        // Do lots of logging
+        pressedLog[pressedLogIndex] = pressed[sequence_pos];
+        pressedLogIndex++;
+        respTimes[sequence_pos] = millis() - timestampBefore;
+
         timeout = false;
         if (pressed[sequence_pos] == touchpad_sequence[sequence_pos]){
         	// correct touchpad touched in sequence
@@ -427,6 +452,7 @@ bool playSimon(){
         	Log.info("Correct");
         } else {
           Log.info("Miss");
+          responseMisses++;
         	// Log.info("currentLevel: %u", currentLevel);
         	// Log.info("sequence_pos: %u", sequence_pos);
         	// Log.info("sequenceLength: %u", sequenceLength);
@@ -491,19 +517,23 @@ bool playSimon(){
     hub.PlayAudio(hub.AUDIO_POSITIVE, 60);
     // give the Hub a moment to finish playing the reward sound
     yield_sleep_ms(SOUND_FOODTREAT_DELAY, false);
-    do {
-      foodtreatState=hub.PresentAndCheckFoodtreat(FOODTREAT_DURATION);
-      yield(false);
-    } while (foodtreatState!=hub.PACT_RESPONSE_FOODTREAT_NOT_TAKEN &&
-      foodtreatState!=hub.PACT_RESPONSE_FOODTREAT_TAKEN);
 
-    // Check if foodtreat was eaten
-    if (foodtreatState == hub.PACT_RESPONSE_FOODTREAT_TAKEN){
-      Log.info("Treat was eaten");
-      foodtreatWasEaten = true;
-    } else {
-      Log.info("Treat was not eaten");
-      foodtreatWasEaten = false;
+    foodtreatPresented = true; // TODO implement reinforcment ratio
+    if(foodtreatPresented){
+      do {
+        foodtreatState=hub.PresentAndCheckFoodtreat(FOODTREAT_DURATION);
+        yield(false);
+      } while (foodtreatState!=hub.PACT_RESPONSE_FOODTREAT_NOT_TAKEN &&
+        foodtreatState!=hub.PACT_RESPONSE_FOODTREAT_TAKEN);
+
+      // Check if foodtreat was eaten
+      if (foodtreatState == hub.PACT_RESPONSE_FOODTREAT_TAKEN){
+        Log.info("Treat was eaten");
+        foodtreatWasEaten = true;
+      } else {
+        Log.info("Treat was not eaten");
+        foodtreatWasEaten = false;
+      }
     }
   } else {
     if (!timeout) {
@@ -514,6 +544,58 @@ bool playSimon(){
     }
   }
 
+  // record time period for performance logging
+  activityDuration = millis() - timestampBefore;
+
+  if(!accurate && !timeout){
+    // always do a retry when we the player got it wrong
+    retrySequence = true;
+  }
+
+  // Send report
+  // TODO this report might get too long for particle publish size limits
+  if(!timeout){
+    Log.info("Sending report");
+
+    String extra ="{";
+    extra += "\"targetSeq\":\"";
+    for (int i = 0; i < sequenceLength; ++i){
+        extra += convertBitfieldToLetter(touchpad_sequence[i]);
+    }
+    extra += "\",\"touchSeq\":\"";
+    for (int i = 0; i < pressedLogIndex; ++i){
+        extra += convertBitfieldToLetter(pressedLog[i]);
+    }
+    extra += "\",\"touchTimes\":\"";
+    for (int i = 0; i < pressedLogIndex; ++i){
+      extra += String(respTimes[i]);
+      if (i < (pressedLogIndex -1)){extra += ",";}
+    }
+    extra += "\",\"presentMisses\":\"";
+    extra += String(presentMisses);
+    extra += "\",\"responseMisses\":\"";
+    extra += String(responseMisses);    
+    extra += "\",\"hintIntensity\":\"";
+    extra += String(hintIntensityMultipl*100); // is the same for whole seq in one level
+    extra += "\",\"reinforceRatio\":\"";
+    extra += String(REINFORCE_RATIO);
+    extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
+    
+    extra += "}";
+
+    Log.info(extra);
+
+    hub.Report(Time.format(gameStartTime,
+                           TIME_FORMAT_ISO8601_FULL),  // play_start_time
+               PlayerName,                             // player
+               currentLevel,                           // level
+               String(accurate),                       // result
+               activityDuration,                       // duration
+               foodtreatPresented,           // foodtreat_presented
+               foodtreatWasEaten,  // foodtreatWasEaten
+               extra               // extra field
+    );
+  }
 
   // keep track of performance
   if (!timeout){
@@ -522,59 +604,21 @@ bool playSimon(){
 
   // adjust level according to performance
   if (countSuccesses() >= ENOUGH_SUCCESSES) {
-    Log.info("Increasing level! %u", sequenceLength);
+    Log.info("Increasing level! %u", currentLevel);
     currentLevel++;
     resetPerformanceHistory();
   } else if (countMisses() >= TOO_MANY_MISSES) {
-   	if (currentLevel > 1)
-   	{
-   		Log.info("Decreasing level! %u", sequenceLength);
+    if (currentLevel > 1)
+    {
+      Log.info("Decreasing level! %u", currentLevel);
       currentLevel--;
-   	}
+    }
     resetPerformanceHistory();
-  }
-
-  // record time period for performance logging
-  activityDuration = millis() - timestampBefore;
-
-  // Send report
-  // TODO this report might get too long for particle publish size limits
-  if(!timeout){
-    Log.info("Sending report");
-
-    String extra ="{";
-    // extra += "\"targetSeq\":\"";
-    // for (int i = 0; i < sequenceLength; ++i){
-    //     extra += convertBitfieldToLetter(touchpad_sequence[i]);
-    // }
-    // extra += "\",\"pressedSeq\":\"";
-    // // TODO also report wrong touches that deducted lives?
-    // for (int i = 0; i < sequenceLength; ++i){
-    //     extra += convertBitfieldToSingleLetter(touchpad_sequence[i],pressed[i+1]);
-    // }
-    // extra += String::format("\",\"lives\":%d",lives);
-    // if (challengeComplete) {extra += ",\"challengeComplete\":1";}
-    // extra += "}";
-
-    // Log.info(extra);
-
-    hub.Report(Time.format(gameStartTime,
-                           TIME_FORMAT_ISO8601_FULL),  // play_start_time
-               PlayerName,                             // player
-               currentLevel, //TODO this is the new value                        // level
-               String(accurate),                       // result
-               activityDuration,                       // duration
-               accurate,           // foodtreat_presented
-               foodtreatWasEaten//,  // foodtreatWasEaten
-               // extra               // extra field
-    );
   }
 
   printPerformanceArray();
 
   if(!accurate && !timeout){
-  	// always do a retry when we the player got it wrong
-  	retrySequence = true;
     // between interaction timeout if wrong
     yield_sleep_ms(INTER_GAME_DELAY, false);
   }
