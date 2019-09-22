@@ -36,7 +36,7 @@ you've made yourself!
    | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install OneTwoThreeButtonGame](./docs/images/install.png)][OneTwoThreeButtonGame]| This game can be useful during initial training of a player to use the Hub. | ![]() |
    | 14. | [**ColorMatchGame**](./games/014_ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install ColorMatchGame](./docs/images/install.png)][ColorMatchGame]| Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | ![]() |
    | 15. | [**WhackAMole**](./games/015_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install WhackAMole](./docs/images/install.png)][WhackAMole]| This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
-   | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
+   | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | [![Install ControlPet](./docs/images/install.png)][ControlPet] | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
    | 17. | [**Simon**](./games/017_Simon) <br><sup>Jelmer&nbsp;Tiete&nbsp;<jelmer@tiete.be></sup>|[![Install Simon](./docs/images/install.png)][Simon]| The classic Simon game, but now for your pet! | ![]() |
 
 
