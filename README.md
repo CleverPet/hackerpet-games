@@ -43,19 +43,9 @@ you've made yourself!
 
 ## How to install games
 
-You can find the full list of available games at the top of this document. (a
-computer readable list can be found in [games.json][games.json])  
-The actual source code of the games can live in one of two places: either on
-[build.particle.io][build.particle] or in this repository under the
-[games][games_folder] folder.
+Once you've modified your Hub to work with hackerpet, the easiest way is to install a game is to just click the install icon (![install icon](./docs/images/install.png))! You'll then sign in to Particle and can choose which Photon you'd like to put the game on to. 
 
-Once you've picked your game and clicked on its link you can end up:
-*  on build.particle.io  
-   Now you just click the `Copy This App` button and then hit the lightning bolt
-   icon in the top left to install the game on your hub.
-*  in the games folder in this repository  
-   To install this game you'll have to first clone or download this repository.
-   Then you can use install the game to your Hub using one of:
+Alternatively, you can clone or download this repository, and then install the game to your Hub using one of:
    1. [particle-cli][particle_cli], 
    2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
    3. [Particle Workbench][particle_vsc] (more sophisticated) for Visual Studio Code
