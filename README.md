@@ -29,17 +29,6 @@ you've made yourself!
 ### Community Contributed Games
    Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
    request to this repository. We'll commit all appropriate games. 
-<<<<<<< HEAD
-   
-   |||||
-   |:---|:---|:---|---|
-   | 12. | [**hello-animal**](./games/012_hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | An introduction to the basics of building hackerpet interactions. | ![]() |
-   | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This game can be useful during initial training of a player to use the Hub. | ![]() |
-   | 14. | [**ColorMatchGame**](./games/014_ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | ![]() |
-   | 15. | [**WhackAMole**](https://go.particle.io/shared_apps/5d6229549628d800059f724d) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | **(hosted on build.particle.io)** - This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
-   | 16. | [**WhackAMole**](./games/016_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
-   | 17. | [**ControlPet**](./games/017_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
-=======
 
    ||||||
    |:---|:---|:-:|:---|---|
@@ -47,7 +36,7 @@ you've made yourself!
    | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install OneTwoThreeButtonGame](./docs/images/install.png)][OneTwoThreeButtonGame]| This game can be useful during initial training of a player to use the Hub. | ![]() |
    | 14. | [**ColorMatchGame**](./games/014_ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install ColorMatchGame](./docs/images/install.png)][ColorMatchGame]| Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | ![]() |
    | 15. | [**WhackAMole**](./games/015_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install WhackAMole](./docs/images/install.png)][WhackAMole]| This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
->>>>>>> upstream/master
+   | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
 
 
 --------
