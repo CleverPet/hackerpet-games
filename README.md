@@ -30,7 +30,7 @@ you've made yourself!
    Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
    request to this repository. We'll commit all appropriate games. 
 
-   ||||||
+   |||&nbsp;&nbsp;&nbsp;&nbsp;|||
    |:---|:---|:-:|:---|---|
    | 12. | [**hello-animal**](./games/012_hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install hello-animal](./docs/images/install.png)][hello-animal]| An introduction to the basics of building hackerpet interactions. | ![]() |
    | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install OneTwoThreeButtonGame](./docs/images/install.png)][OneTwoThreeButtonGame]| This game can be useful during initial training of a player to use the Hub. | ![]() |
