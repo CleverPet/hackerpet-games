@@ -45,19 +45,25 @@ const char PlayerName[] = "Pet, Clever";
  * These constants (capitalized CamelCase) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 1; // starting level
+int currentLevel = 4; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
 const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
-const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99]
+// LED colors and intensities
+const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_BLUE = 0; // [0-99]
-const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99]
+const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99] // cue / status light is white in response phase
 const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 5; // [0-99]
 const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 5; // [0-99]
 const int SLEW = 0; // slew for all lights [0-99]
-const int TARGET_INTENSITY = 80; // [0-99]
+const int TARGET_PRESENT_INTENSITY_RED = 80; // [0-99]
+const int TARGET_PRESENT_INTENSITY_GREEN = 80; // [0-99]
+const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
+const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
+const int TARGET_RESPONSE_INTENSITY_GREEN = 00; // [0-99]
+const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
 const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait until restarting the
                                                     // interaction
@@ -342,7 +348,12 @@ bool playSimon(){
   if(!hub.AnyButtonPressed()){
     // illuminate sequence
     for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos) {
-    	hub.SetLights(touchpad_sequence[sequence_pos],TARGET_INTENSITY,TARGET_INTENSITY,SLEW);
+    	hub.SetLightsRGB(
+        touchpad_sequence[sequence_pos],
+        TARGET_PRESENT_INTENSITY_RED,
+        TARGET_PRESENT_INTENSITY_GREEN,
+        TARGET_PRESENT_INTENSITY_BLUE,
+        SLEW);
   		// play touchpad sound
   		hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
     	// give the Hub a moment to finish playing the sound and detect touches
@@ -399,10 +410,11 @@ bool playSimon(){
       } else {
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1];
       }
-      hub.SetLights(
+      hub.SetLightsRGB(
         touchpad_sequence[sequence_pos],
-        (TARGET_INTENSITY * hintIntensityMultipl),
-        (TARGET_INTENSITY * hintIntensityMultipl),
+        TARGET_RESPONSE_INTENSITY_RED,
+        TARGET_RESPONSE_INTENSITY_GREEN,
+        TARGET_RESPONSE_INTENSITY_BLUE,
         SLEW);
 
       // on first light in sequence, play DODO sound
@@ -482,10 +494,11 @@ bool playSimon(){
             // on level 2 and 3 we flash the correct pad on a miss
             if(currentLevel == 2 || currentLevel == 3){
               Log.info("Giving post-cue");
-              hub.SetLights(
+              hub.SetLightsRGB(
                 touchpad_sequence[sequence_pos],
-                TARGET_INTENSITY,
-                TARGET_INTENSITY,
+                TARGET_RESPONSE_INTENSITY_RED,
+                TARGET_RESPONSE_INTENSITY_GREEN,
+                TARGET_RESPONSE_INTENSITY_BLUE,
                 10,5);
               yield_sleep_ms(200, false);
               hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
