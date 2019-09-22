@@ -178,5 +178,15 @@
 		"url": "https://github.com/CleverPet/HackerPet-games/games/016_Simon/",
 		"media": "",
 		"tags":["Community","CleverPet"]
+	},
+	{
+		"title": "ControlPet",
+		"author": "Michael Gschwandtner <mgschwan@gmail.com>",
+		"description_sentence":"Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub",
+		"description_paragraph":"",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/014_ColorMatchGame/",
+		"media": "",
+		"tags":["Community"]
 	}]
 }
