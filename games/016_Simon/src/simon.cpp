@@ -45,7 +45,7 @@ const char PlayerName[] = "Pet, Clever";
  * These constants (capitalized CamelCase) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 4; // starting level
+int currentLevel = 1; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
@@ -62,7 +62,7 @@ const int TARGET_PRESENT_INTENSITY_RED = 80; // [0-99]
 const int TARGET_PRESENT_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
-const int TARGET_RESPONSE_INTENSITY_GREEN = 00; // [0-99]
+const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
 const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait until restarting the
