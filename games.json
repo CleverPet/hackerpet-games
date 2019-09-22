@@ -162,20 +162,20 @@
 	{
 		"title": "WhackAMole",
 		"author": "CleverPet <hello@clever.pet>",
-		"description_sentence":"(hosted on build.particle.io) - This is a more \"active\" game for the Hub that challenges your player's \"paw-eye\" coordination.",
+		"description_sentence":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
 		"description_paragraph":"",
-		"type": "build.particle.io",
-		"url": "https://go.particle.io/shared_apps/5d6229549628d800059f724d",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/015_ColorMatchGame/",
 		"media": "",
 		"tags":["Community","CleverPet"]
 	},
 	{
-		"title": "WhackAMole",
-		"author": "CleverPet <hello@clever.pet>",
-		"description_sentence":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
+		"title": "Simon",
+		"author": "Jelmer Tiete <jelmer@tiete.be>",
+		"description_sentence":"The classic Simon game, but now for your pet!",
 		"description_paragraph":"",
-		"type": "build.particle.io",
-		"url": "https://github.com/CleverPet/HackerPet-games/games/016_ColorMatchGame/",
+		"type": "github.com",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/017_Simon/",
 		"media": "",
 		"tags":["Community","CleverPet"]
 	},
