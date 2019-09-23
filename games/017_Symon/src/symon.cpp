@@ -61,7 +61,7 @@
 #include <algorithm>
 
 // Set this to the name of your player (dog, cat, etc.)
-const char PlayerName[] = "Pet, Clever";
+const char PlayerName[] = "Salk";
 
 /**
  * Challenge settings
