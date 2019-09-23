@@ -223,8 +223,9 @@ bool playSimon(){
   yield_begin();
 
   static const int SEQUENCE_LENGTHMAX = 20;
+  static const int LOG_LENGTH_MAX = 100;
   static unsigned long timestampBefore, timestampTouchpad, gameStartTime, activityDuration = 0;
-  static unsigned long respTimes[SEQUENCE_LENGTHMAX] = {};
+  static unsigned long touchLogTimes[SEQUENCE_LENGTHMAX] = {};
   static unsigned char foodtreatState = 99;
   static unsigned char touchpads[3]={hub.BUTTON_LEFT,
                                    hub.BUTTON_MIDDLE,
@@ -233,9 +234,9 @@ bool playSimon(){
   static double hintIntensityMultipl = 0;
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
-  static unsigned char pressedLog[SEQUENCE_LENGTHMAX] = {};  // could end up longer than sequence length, should use vector
+  static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
   static int sequenceLength = 0; // sequence length (gets calculated)
-  static int pressedLogIndex = 0;
+  static int touchLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
   static int responseMisses = 0; // logging error touches during response phase
   static bool accurate = false;
@@ -259,19 +260,19 @@ bool playSimon(){
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
-  // Log.info(String(sizeof(pressed)));
-  // Log.info(String(sizeof(respTimes)));
   for (int i = 0; i<SEQUENCE_LENGTHMAX; i++){
-    respTimes[i]=0;
+    touchLog[i]=0;
   }
-
+  for (int i = 0; i<SEQUENCE_LENGTHMAX; i++){
+    touchLogTimes[i]=0;
+  }
   accurate = false;
   timeout = false;
   hintIntensityMultipl = 0;
   foodtreatPresented = false; // store if foodtreat was presented in last interaction
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   dodoSoundPlayed = false;
-  pressedLogIndex = 0;
+  touchLogIndex = 0;
   presentMisses = 0;//store if touchpad was touched during presentation phase
   responseMisses = 0;
 
@@ -369,8 +370,9 @@ bool playSimon(){
   // wait time before response phase and detect touches
   yield_wait_for_with_timeout(hub.AnyButtonPressed(), 50,false);
   if(hub.AnyButtonPressed()){
-    pressedLog[pressedLogIndex] = hub.AnyButtonPressed();
-    pressedLogIndex++;
+    touchLog[touchLogIndex] = hub.AnyButtonPressed();
+    touchLogTimes[touchLogIndex] = millis() - timestampBefore;
+    touchLogIndex++;
     presentMisses++;}
 
   // turn off touchpad lights
@@ -459,9 +461,9 @@ bool playSimon(){
         Log.info("Touchpad touched");
 
         // Do lots of logging
-        pressedLog[pressedLogIndex] = pressed[sequence_pos];
-        pressedLogIndex++;
-        respTimes[sequence_pos] = millis() - timestampBefore;
+        touchLog[touchLogIndex] = pressed[sequence_pos];
+        touchLogTimes[touchLogIndex] = millis() - timestampBefore;
+        touchLogIndex++;
 
         timeout = false;
         if (pressed[sequence_pos] == touchpad_sequence[sequence_pos]){
@@ -597,13 +599,14 @@ bool playSimon(){
         extra += convertBitfieldToLetter(touchpad_sequence[i]);
     }
     extra += "\",\"touchSeq\":\"";
-    for (int i = 0; i < pressedLogIndex; ++i){
-        extra += convertBitfieldToLetter(pressedLog[i]);
+    for (int i = 0; i < touchLogIndex; ++i){
+        extra += convertBitfieldToLetter(touchLog[i]);
+        if (i < (touchLogIndex -1)){extra += ",";}
     }
     extra += "\",\"touchTimes\":\"";
-    for (int i = 0; i < pressedLogIndex; ++i){
-      extra += String(respTimes[i]);
-      if (i < (pressedLogIndex -1)){extra += ",";}
+    for (int i = 0; i < touchLogIndex; ++i){
+      extra += String(touchLogTimes[i]);
+      if (i < (touchLogIndex -1)){extra += ",";}
     }
     extra += "\",\"presentMisses\":\"";
     extra += String(presentMisses);
