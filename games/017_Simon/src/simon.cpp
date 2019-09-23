@@ -516,6 +516,9 @@ bool playSimon(){
               hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
             }
 
+            // we got lucky, lets redo this one by decreasing sequence_pos
+            sequence_pos--;
+
         	} else {
         		// we lost, it's a miss
         		Log.info("It's a real miss");
