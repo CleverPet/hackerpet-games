@@ -654,6 +654,7 @@ bool playSymon(){
       } else {
         Log.info("Treat was not eaten");
         foodtreatWasEaten = false;
+        hub.ResetFoodMachine();
       }
     } else {
       Log.info("No foodtreat this time (REINFORCE_RATIO)");
@@ -738,7 +739,7 @@ bool playSymon(){
     currentLevel++;
     resetPerformanceHistory();
   } else if (countMisses() >= TOO_MANY_MISSES) {
-    if (currentLevel > 10)
+    if (currentLevel > MIN_LEVEL)
     {
       Log.info("Decreasing level! %u", currentLevel);
       currentLevel--;
