@@ -30,32 +30,23 @@ you've made yourself!
    Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
    request to this repository. We'll commit all appropriate games. 
 
-   ||||||
+   |||&nbsp;&nbsp;&nbsp;&nbsp;|||
    |:---|:---|:-:|:---|---|
    | 12. | [**hello-animal**](./games/012_hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install hello-animal](./docs/images/install.png)][hello-animal]| An introduction to the basics of building hackerpet interactions. | ![]() |
    | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install OneTwoThreeButtonGame](./docs/images/install.png)][OneTwoThreeButtonGame]| This game can be useful during initial training of a player to use the Hub. | ![]() |
    | 14. | [**ColorMatchGame**](./games/014_ColorMatchGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install ColorMatchGame](./docs/images/install.png)][ColorMatchGame]| Touching a touchpad toggles it to a different color, the game ends when all the touchpad colors match. | ![]() |
    | 15. | [**WhackAMole**](./games/015_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install WhackAMole](./docs/images/install.png)][WhackAMole]| This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
-   | 16. | [**Simon**](./games/016_Simon) <br><sup>Jelmer&nbsp;Tiete&nbsp;<jelmer@tiete.be></sup>|[![Install Simon](./docs/images/install.png)][Simon]| The classic Simon game, but now for your pet! | ![]() |
+   | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | [![Install ControlPet](./docs/images/install.png)][ControlPet] | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
+   | 17. | [**Simon**](./games/017_Simon) <br><sup>Jelmer&nbsp;Tiete&nbsp;<jelmer@tiete.be></sup> | [![Install Simon](./docs/images/install.png)][Simon] | The classic Simon game, but now for your pet! | ![]() |
 
 
 --------
 
 ## How to install games
 
-You can find the full list of available games at the top of this document. (a
-computer readable list can be found in [games.json][games.json])  
-The actual source code of the games can live in one of two places: either on
-[build.particle.io][build.particle] or in this repository under the
-[games][games_folder] folder.
+Once you've modified your Hub to work with hackerpet, the easiest way is to install a game is to just click the install icon (![install icon](./docs/images/install.png))! You'll then sign in to Particle and can choose which Photon you'd like to put the game on to. 
 
-Once you've picked your game and clicked on its link you can end up:
-*  on build.particle.io  
-   Now you just click the `Copy This App` button and then hit the lightning bolt
-   icon in the top left to install the game on your hub.
-*  in the games folder in this repository  
-   To install this game you'll have to first clone or download this repository.
-   Then you can use install the game to your Hub using one of:
+Alternatively, you can clone or download this repository, and then install the game to your Hub using one of:
    1. [particle-cli][particle_cli], 
    2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
    3. [Particle Workbench][particle_vsc] (more sophisticated) for Visual Studio Code
@@ -160,4 +151,5 @@ in specific ways:
 [OneTwoThreeButtonGame]:   https://install.hackerpet.com/?name=OneTwoThreeButtonGame&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/013_OneTwoThreeButtonGame/src/OneTwoThreeButtonGame.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/013_OneTwoThreeButtonGame/project.properties
 [ColorMatchGame]:          https://install.hackerpet.com/?name=ColorMatchGame&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/014_ColorMatchGame/src/ColorMatchGame.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/014_ColorMatchGame/project.properties
 [WhackAMole]:              https://install.hackerpet.com/?name=WhackAMole&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/015_WhackAMole/src/WhackAMole.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/015_WhackAMole/project.properties
-[Simon]:                   https://install.hackerpet.com/?name=Simon&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_Simon/src/simon.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_Simon/project.properties
+[ControlPet]:              https://install.hackerpet.com/?name=ControlPet&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/SocketIOclient.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/SocketIOclient.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSockets.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSockets.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSocketsClient.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSocketsClient.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSocketsServer.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/WebSocketsServer.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/cdecode.c&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/cdecode_inc.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/cencode.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/cencode_inc.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/controlpet.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/controlpet_util.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/controlpet_util.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/libsha1.c&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/libsha1.h&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/016_ControlPet/project.properties
+[Simon]:                   https://install.hackerpet.com/?name=Simon&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/017_Simon/src/simon.cpp&f=https://raw.githubusercontent.com/CleverPet/hackerpet-games/master/games/017_Simon/project.properties
