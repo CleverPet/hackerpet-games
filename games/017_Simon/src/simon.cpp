@@ -465,11 +465,14 @@ bool playSimon(){
         	Log.info("Correct");
         } else {
           Log.info("Miss");
+          accurate = false;
           responseMisses++;
+
         	// Log.info("currentLevel: %u", currentLevel);
         	// Log.info("sequence_pos: %u", sequence_pos);
         	// Log.info("sequenceLength: %u", sequenceLength);
-        	// calculate End On Miss chance [0-100], see game-logic table for formulas
+
+          // calculate End On Miss chance [0-100], see game-logic table for formulas
         	int eom = 0;
         	if (sequenceLength == 1) {
             eom = END_ON_MISS_CHANCE_1[currentLevel-1];
@@ -488,8 +491,12 @@ bool playSimon(){
         	Log.info("random number: %u",rando);
         	bool lucky = rando >= eom;
         	Log.info("lucky?: %u",lucky);
+
         	if (lucky){
         		Log.info("Touch tollerated, ignoring touch");
+
+            // we got lucky, lets redo this one by decreasing sequence_pos
+            sequence_pos--;
 
             // on level 2 and 3 we flash the correct pad on a miss
             if(currentLevel == 2 || currentLevel == 3){
@@ -502,13 +509,10 @@ bool playSimon(){
                 10,5);
               yield_sleep_ms(200, false);
               hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
-              // we got lucky, lets redo this one by decreasing sequence_pos
-              sequence_pos--;
             }
 
         	} else {
         		// we lost, it's a miss
-        		accurate = false;
         		Log.info("It's a real miss");
         		break;
         	}
