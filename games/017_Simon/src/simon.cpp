@@ -69,7 +69,7 @@ const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait unt
                                                     // interaction
 const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
 const double HINT_INTENSITY_MULTIPL[] = {1.00,0.30,0,0,1.00,1.00,1.00,1.00,1.00,
-							0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.5,0.2,0};
+							0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.05,0.02,0};
 const int END_ON_MISS_CHANCE_1[] = {100,0,25,100};
 const int END_ON_MISS_CHANCE_2[] = {0,15,20,25,30,35,40,45,50,55,60,65,70,75,85,100};
 const int END_ON_MISS_CHANCE_3[] = {0,40,50,55,60,65,70,75,80,85,90,95,100,100,100,100};
@@ -410,11 +410,16 @@ bool playSimon(){
       } else {
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1];
       }
+
+      Log.info(String(currentLevel));
+      Log.info(String(sequence_pos));
+      Log.info(String(hintIntensityMultipl));
+
       hub.SetLightsRGB(
         touchpad_sequence[sequence_pos],
-        TARGET_RESPONSE_INTENSITY_RED,
-        TARGET_RESPONSE_INTENSITY_GREEN,
-        TARGET_RESPONSE_INTENSITY_BLUE,
+        (TARGET_RESPONSE_INTENSITY_RED * hintIntensityMultipl),
+        (TARGET_RESPONSE_INTENSITY_GREEN * hintIntensityMultipl),
+        (TARGET_RESPONSE_INTENSITY_BLUE * hintIntensityMultipl),
         SLEW);
 
       // on first light in sequence, play DODO sound
@@ -465,11 +470,14 @@ bool playSimon(){
         	Log.info("Correct");
         } else {
           Log.info("Miss");
+          accurate = false;
           responseMisses++;
+
         	// Log.info("currentLevel: %u", currentLevel);
         	// Log.info("sequence_pos: %u", sequence_pos);
         	// Log.info("sequenceLength: %u", sequenceLength);
-        	// calculate End On Miss chance [0-100], see game-logic table for formulas
+
+          // calculate End On Miss chance [0-100], see game-logic table for formulas
         	int eom = 0;
         	if (sequenceLength == 1) {
             eom = END_ON_MISS_CHANCE_1[currentLevel-1];
@@ -488,8 +496,12 @@ bool playSimon(){
         	Log.info("random number: %u",rando);
         	bool lucky = rando >= eom;
         	Log.info("lucky?: %u",lucky);
+
         	if (lucky){
         		Log.info("Touch tollerated, ignoring touch");
+
+            // we got lucky, lets redo this one by decreasing sequence_pos
+            sequence_pos--;
 
             // on level 2 and 3 we flash the correct pad on a miss
             if(currentLevel == 2 || currentLevel == 3){
@@ -502,13 +514,10 @@ bool playSimon(){
                 10,5);
               yield_sleep_ms(200, false);
               hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
-              // we got lucky, lets redo this one by decreasing sequence_pos
-              sequence_pos--;
             }
 
         	} else {
         		// we lost, it's a miss
-        		accurate = false;
         		Log.info("It's a real miss");
         		break;
         	}
