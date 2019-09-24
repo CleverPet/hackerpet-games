@@ -702,6 +702,7 @@ bool playSymon(){
     }
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
+    //extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
     extra += String::format("\",\"retryGame\":%d", retryCounter);
 
     extra += "}";
