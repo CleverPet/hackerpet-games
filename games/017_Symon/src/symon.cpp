@@ -704,7 +704,6 @@ bool playSymon(){
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%d", retryCounter);
 
-
     extra += "}";
 
     // Log.info(extra);
