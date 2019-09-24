@@ -588,6 +588,7 @@ bool playSimon(){
     extra += "\"targetSeq\":\"";
     for (int i = 0; i < sequenceLength; ++i){
         extra += convertBitfieldToLetter(touchpad_sequence[i]);
+        if (i < (sequenceLength -1)){extra += ",";}
     }
     extra += "\",\"touchSeq\":\"";
     for (int i = 0; i < touchLogIndex; ++i){
