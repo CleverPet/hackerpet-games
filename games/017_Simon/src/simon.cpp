@@ -611,13 +611,15 @@ bool playSimon(){
     extra += "\",\"presentMisses\":\"";
     extra += String(presentMisses);
     extra += "\",\"responseMisses\":\"";
-    extra += String(responseMisses);    
-    extra += "\",\"hintIntensity\":\"";
-    extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
+    extra += String(responseMisses);
+    if(presentMisses == 0){
+      extra += "\",\"hintIntensity\":\"";
+      extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
+    }
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
-    
+
     extra += "}";
 
     // Log.info(extra);
