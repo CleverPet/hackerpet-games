@@ -502,6 +502,9 @@ bool playSimon(){
         	if (lucky){
         		Log.info("Touch tollerated, ignoring touch");
 
+            // we got lucky, lets redo this one by decreasing sequence_pos
+            sequence_pos--;
+
             // on level 2 and 3 we flash the correct pad on a miss
             if(currentLevel == 2 || currentLevel == 3){
               Log.info("Giving post-cue");
