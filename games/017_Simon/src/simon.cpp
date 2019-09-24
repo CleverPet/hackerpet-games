@@ -69,7 +69,7 @@ const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait unt
                                                     // interaction
 const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
 const double HINT_INTENSITY_MULTIPL[] = {1.00,0.30,0,0,1.00,1.00,1.00,1.00,1.00,
-							0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.05,0.02,0};
+              0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.05,0.02,0};
 const int END_ON_MISS_CHANCE_1[] = {100,0,25,100};
 const int END_ON_MISS_CHANCE_2[] = {0,15,20,25,30,35,40,45,50,55,60,65,70,75,85,100};
 const int END_ON_MISS_CHANCE_3[] = {0,40,50,55,60,65,70,75,80,85,90,95,100,100,100,100};
@@ -207,7 +207,7 @@ String convertBitfieldToSingleLetter(unsigned char targetPad, unsigned char pad)
 }
 
 int buttonToAudio(unsigned char button){
-	switch(button) {
+  switch(button) {
     case hub.BUTTON_LEFT : return hub.AUDIO_L;
              break;
     case hub.BUTTON_MIDDLE : return hub.AUDIO_M;
@@ -215,7 +215,7 @@ int buttonToAudio(unsigned char button){
     case hub.BUTTON_RIGHT : return hub.AUDIO_R;
              break;
     default: return 0;
-	}
+  }
 }
 
 /// The actual LearningLongerSequences function. This function needs to be called in a loop.
@@ -243,8 +243,7 @@ bool playSimon(){
   static bool timeout = false;
   static bool foodtreatPresented = false; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
-  static bool retrySequence = false; // do not re-initialize
-  static int  retryCounter = 0;
+  static int retryCounter = 0; // do not re-initialize
   static bool dodoSoundPlayed = false;
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
@@ -296,11 +295,11 @@ bool playSimon(){
 
   //calculate sequenceLength
   if (currentLevel < 5)
-  	sequenceLength = 1;
+    sequenceLength = 1;
   else
-  	sequenceLength = ((currentLevel-5)/16)+2; // see game-logic chart
+    sequenceLength = ((currentLevel-5)/16)+2; // see game-logic chart
 
-	if(!retrySequence){
+  if(!retryCounter){
     // fill touchpad_sequence
     retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
@@ -308,12 +307,9 @@ bool playSimon(){
         random_shuffle(&touchpads[0], &touchpads[3]);
         touchpad_sequence[i] = touchpads[0];
     }
-	} else {
-		Log.info("Doing a retry game");
-		//reset retrySequence
-		retrySequence = false;
-    retryCounter++;
-	}
+  } else {
+    Log.info("Doing a retry game");
+  }
 
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
   currentLevel, sequenceLength, countSuccesses(), countMisses());
@@ -334,16 +330,16 @@ bool playSimon(){
   // turn off the button sounds
   hub.SetButtonAudioEnabled(0);
 
- 	// illuminate cue light Yellow
-	hub.SetLightsRGB(
-		hub.LIGHT_CUE,
-		CUE_LIGHT_PRESENT_INTENSITY_RED,
-		CUE_LIGHT_PRESENT_INTENSITY_GREEN,
-		CUE_LIGHT_PRESENT_INTENSITY_BLUE,
-		SLEW);
-	
-	// play DO sound
-	hub.PlayAudio(hub.AUDIO_DO, 90);
+  // illuminate cue light Yellow
+  hub.SetLightsRGB(
+    hub.LIGHT_CUE,
+    CUE_LIGHT_PRESENT_INTENSITY_RED,
+    CUE_LIGHT_PRESENT_INTENSITY_GREEN,
+    CUE_LIGHT_PRESENT_INTENSITY_BLUE,
+    SLEW);
+  
+  // play DO sound
+  hub.PlayAudio(hub.AUDIO_DO, 90);
     // give the Hub a moment to finish playing the sound and detect touches
     // yield_sleep_ms(SOUND_DO_DELAY+500, false);
     // extra delay between do sound and presentation of sequence and detect touches
@@ -352,20 +348,20 @@ bool playSimon(){
   if(!hub.AnyButtonPressed()){
     // illuminate sequence
     for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos) {
-    	hub.SetLightsRGB(
+      hub.SetLightsRGB(
         touchpad_sequence[sequence_pos],
         TARGET_PRESENT_INTENSITY_RED,
         TARGET_PRESENT_INTENSITY_GREEN,
         TARGET_PRESENT_INTENSITY_BLUE,
         SLEW);
-  		// play touchpad sound
-  		hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
-    	// give the Hub a moment to finish playing the sound and detect touches
-    	yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+200,false);
-    	if(hub.AnyButtonPressed()){break;}
-    	
-    	// turn off touchpad light
-    	hub.SetLights(touchpad_sequence[sequence_pos],0,0,SLEW);
+      // play touchpad sound
+      hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
+      // give the Hub a moment to finish playing the sound and detect touches
+      yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+200,false);
+      if(hub.AnyButtonPressed()){break;}
+      
+      // turn off touchpad light
+      hub.SetLights(touchpad_sequence[sequence_pos],0,0,SLEW);
     }
   }
 
@@ -382,7 +378,7 @@ bool playSimon(){
   hub.SetLights(hub.LIGHT_BTNS,0,0,SLEW);
 
   // turn off cue light
-	// hub.SetLights(hub.LIGHT_CUE, 0, 0, SLEW);
+  // hub.SetLights(hub.LIGHT_CUE, 0, 0, SLEW);
 
 
 //------------------------------------------------------------------------------
@@ -391,34 +387,34 @@ bool playSimon(){
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
 
-   	// illuminate cue light White
-	hub.SetLightsRGB(
-		hub.LIGHT_CUE,
-		CUE_LIGHT_RESPONSE_INTENSITY_RED,
-		CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
-		CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
-		SLEW);
+    // illuminate cue light White
+  hub.SetLightsRGB(
+    hub.LIGHT_CUE,
+    CUE_LIGHT_RESPONSE_INTENSITY_RED,
+    CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
+    CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
+    SLEW);
 
-	if(!presentMisses){
-		// delay after turning cue light to white
-	    yield_sleep_ms(400, false);
+  if(!presentMisses){
+    // delay after turning cue light to white
+      yield_sleep_ms(400, false);
 
     // start response detection
     for (sequence_pos = 0; sequence_pos < sequenceLength; ++sequence_pos)
     {
-    	// wait until: no button is currently pressed
-    	yield_wait_for((!hub.AnyButtonPressed()), false);
+      // wait until: no button is currently pressed
+      yield_wait_for((!hub.AnyButtonPressed()), false);
 
-    	// turn on response hint, see game logic table for intensity calculation
+      // turn on response hint, see game logic table for intensity calculation
       if (currentLevel < 5){
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL[currentLevel-1];
       } else {
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1];
       }
 
-      Log.info(String(currentLevel));
-      Log.info(String(sequence_pos));
-      Log.info(String(hintIntensityMultipl));
+      // Log.info(String(currentLevel));
+      // Log.info(String(sequence_pos));
+      // Log.info(String(hintIntensityMultipl));
 
       hub.SetLightsRGB(
         touchpad_sequence[sequence_pos],
@@ -438,29 +434,29 @@ bool playSimon(){
       }
 
 
-    	// turn on the button sounds
-    	hub.SetButtonAudioEnabled(1);
+      // turn on the button sounds
+      hub.SetButtonAudioEnabled(1);
 
-    	timestampTouchpad = millis();
-    	do
-    	{
-    	    // detect any buttons currently pressed
-    	    pressed[sequence_pos] = hub.AnyButtonPressed();
-    	    // use yields statements any time the hub is pausing or waiting
-    	    yield(false);
-    	}
-    	while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
-    	        //0 if timed out
-    			// no timeouts for now
-    	        /*&& millis()  < timestampTouchpad + TIMEOUT_INTERACTIONS_MS*/);
-  		// disable button sound
-  		hub.SetButtonAudioEnabled(0);
-    	hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+      timestampTouchpad = millis();
+      do
+      {
+          // detect any buttons currently pressed
+          pressed[sequence_pos] = hub.AnyButtonPressed();
+          // use yields statements any time the hub is pausing or waiting
+          yield(false);
+      }
+      while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
+              //0 if timed out
+          // no timeouts for now
+              /*&& millis()  < timestampTouchpad + TIMEOUT_INTERACTIONS_MS*/);
+      // disable button sound
+      hub.SetButtonAudioEnabled(0);
+      hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
       // give the Hub a moment to finish playing the touchpad sound
       yield_sleep_ms(SOUND_TOUCHPAD_DELAY, false);
 
-	    if (pressed[sequence_pos] != 0)
-	    {
+      if (pressed[sequence_pos] != 0)
+      {
         Log.info("Touchpad touched");
 
         // Do lots of logging
@@ -470,40 +466,40 @@ bool playSimon(){
 
         timeout = false;
         if (pressed[sequence_pos] == touchpad_sequence[sequence_pos]){
-        	// correct touchpad touched in sequence
-        	accurate = true;
-        	Log.info("Correct");
+          // correct touchpad touched in sequence
+          accurate = true;
+          Log.info("Correct");
         } else {
           Log.info("Miss");
           accurate = false;
           responseMisses++;
 
-        	// Log.info("currentLevel: %u", currentLevel);
-        	// Log.info("sequence_pos: %u", sequence_pos);
-        	// Log.info("sequenceLength: %u", sequenceLength);
+          // Log.info("currentLevel: %u", currentLevel);
+          // Log.info("sequence_pos: %u", sequence_pos);
+          // Log.info("sequenceLength: %u", sequenceLength);
 
           // calculate End On Miss chance [0-100], see game-logic table for formulas
-        	int eom = 0;
-        	if (sequenceLength == 1) {
+          int eom = 0;
+          if (sequenceLength == 1) {
             eom = END_ON_MISS_CHANCE_1[currentLevel-1];
-        	} else if ((sequenceLength - 1) == sequence_pos) {
-        		eom = END_ON_MISS_CHANCE_2[((currentLevel-5)%16)];
-        	} else if ((sequenceLength - 1) == (sequence_pos + 1)){
-        		eom = END_ON_MISS_CHANCE_3[((currentLevel-5)%16)];
-        	} else if ((sequenceLength - 1) > (sequence_pos + 1)) {
-        		eom = 100;
-        	}
+          } else if ((sequenceLength - 1) == sequence_pos) {
+            eom = END_ON_MISS_CHANCE_2[((currentLevel-5)%16)];
+          } else if ((sequenceLength - 1) == (sequence_pos + 1)){
+            eom = END_ON_MISS_CHANCE_3[((currentLevel-5)%16)];
+          } else if ((sequenceLength - 1) > (sequence_pos + 1)) {
+            eom = 100;
+          }
 
-        	Log.info("eom value: %u", eom);
+          Log.info("eom value: %u", eom);
 
-        	// we have a miss, spin the wheel, rien ne vas plus
-        	int rando = ((int)(rand() % 100));
-        	Log.info("random number: %u",rando);
-        	bool lucky = rando >= eom;
-        	Log.info("lucky?: %u",lucky);
+          // we have a miss, spin the wheel, rien ne vas plus
+          int rando = ((int)(rand() % 100));
+          Log.info("random number: %u",rando);
+          bool lucky = rando >= eom;
+          Log.info("lucky?: %u",lucky);
 
-        	if (lucky){
-        		Log.info("Touch tollerated, ignoring touch");
+          if (lucky){
+            Log.info("Touch tollerated, ignoring touch");
 
             // we got lucky, lets redo this one by decreasing sequence_pos
             sequence_pos--;
@@ -524,24 +520,24 @@ bool playSimon(){
             // we got lucky, lets redo this one by decreasing sequence_pos
             sequence_pos--;
 
-        	} else {
-        		// we lost, it's a miss
-        		Log.info("It's a real miss");
-        		break;
-        	}
+          } else {
+            // we lost, it's a miss
+            Log.info("It's a real miss");
+            break;
+          }
         }
-	    } else {
-	    	// we have a timeout
+      } else {
+        // we have a timeout
         Log.info("No touchpad pressed, timeout");
         accurate = false;
         timeout = true;
-	    }
-  	}
-	} else {
-		Log.info("We had a touch during presentation phase, automatic miss.");
-		accurate = false;
-		timeout = false;
-	}
+      }
+    }
+  } else {
+    Log.info("We had a touch during presentation phase, automatic miss.");
+    accurate = false;
+    timeout = false;
+  }
 
   if (accurate) {
     Log.info("Sequence correct");
@@ -586,11 +582,6 @@ bool playSimon(){
   // record time period for performance logging
   activityDuration = millis() - timestampBefore;
 
-  if(!accurate && !timeout){
-    // always do a retry when we the player got it wrong
-    retrySequence = true;
-  }
-
   // Send report
   // TODO this report might get too long for particle publish size limits
   if(!timeout){
@@ -623,6 +614,7 @@ bool playSimon(){
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%d", retryCounter);
 
+
     extra += "}";
 
     // Log.info(extra);
@@ -639,9 +631,16 @@ bool playSimon(){
     );
   }
 
-  // keep track of performance
-  if (!timeout){
+  // keep track of performance and retry games
+  if(!timeout){
+
     addResultToPerformanceHistory(accurate);
+
+    // always do a retry when we the player got it wrong else reset it
+    if(!accurate)
+      retryCounter++;
+    else
+      retryCounter = 0;
   }
 
   // adjust level according to performance
