@@ -337,8 +337,15 @@ bool playSymon(){
     retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
     {
+        if (random(0,100) < 78) 
+        {
+          touchpad_sequence[0] = hub.BUTTON_LEFT;//touchpads[0];
+        }
+        else 
+        {
         random_shuffle(&touchpads[0], &touchpads[3]);
         touchpad_sequence[i] = touchpads[0];
+        }
     }
   } else {
     Log.info("Doing a retry game");
