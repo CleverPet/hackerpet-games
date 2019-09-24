@@ -244,6 +244,7 @@ bool playSimon(){
   static bool foodtreatPresented = false; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static bool retrySequence = false; // do not re-initialize
+  static int  retryCounter = 0;
   static bool dodoSoundPlayed = false;
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
@@ -301,6 +302,7 @@ bool playSimon(){
 
 	if(!retrySequence){
     // fill touchpad_sequence
+    retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
     {
         random_shuffle(&touchpads[0], &touchpads[3]);
@@ -310,6 +312,7 @@ bool playSimon(){
 		Log.info("Doing a retry game");
 		//reset retrySequence
 		retrySequence = false;
+    retryCounter++;
 	}
 
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
@@ -618,7 +621,7 @@ bool playSimon(){
     }
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
-    extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
+    extra += String::format("\",\"retryGame\":%d", retryCounter);
 
     extra += "}";
 
