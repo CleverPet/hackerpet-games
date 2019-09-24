@@ -45,7 +45,7 @@ const char PlayerName[] = "Pet, Clever";
  * These constants (capitalized CamelCase) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 1; // starting level
+int currentLevel = 17; // starting level
 const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
 const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
@@ -611,13 +611,15 @@ bool playSimon(){
     extra += "\",\"presentMisses\":\"";
     extra += String(presentMisses);
     extra += "\",\"responseMisses\":\"";
-    extra += String(responseMisses);    
-    extra += "\",\"hintIntensity\":\"";
-    extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
+    extra += String(responseMisses);
+    if(presentMisses == 0){
+      extra += "\",\"hintIntensity\":\"";
+      extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
+    }
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%c",retrySequence ? '1' : '0');
-    
+
     extra += "}";
 
     // Log.info(extra);
