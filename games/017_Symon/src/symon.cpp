@@ -337,18 +337,22 @@ bool playSymon(){
     retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
     {
-        if (random(0,100) < 78) 
-        {
+        /*if (random(0,100) < 50) 
+        { // bias correct
           touchpad_sequence[0] = hub.BUTTON_LEFT;//touchpads[0];
         }
         else 
-        {
+        {*/
         random_shuffle(&touchpads[0], &touchpads[3]);
         touchpad_sequence[i] = touchpads[0];
-        }
+        //}
     }
   } else {
     Log.info("Doing a retry game");
+    if (retryCounter == 7 || retryCounter == 15)
+    {
+        hub.ResetFoodMachine();
+    }
   }
 
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
@@ -773,6 +777,7 @@ bool playSymon(){
 void setup() {
   // Initializes the hub and passes the current filename as ID for reporting
   hub.Initialize(__FILE__);
+  hub.ResetFoodMachine();
 }
 
 /**
