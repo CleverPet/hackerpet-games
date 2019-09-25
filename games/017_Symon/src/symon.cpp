@@ -438,17 +438,14 @@ bool playSymon(){
     }
   }
 
-<<<<<<< HEAD
   // wait random time before response phase (min:50 max:RESPONSE_PHASE_WAIT_TIME) and detect touches
   yield_wait_for_with_timeout(hub.AnyButtonPressed(),
     (random(0,RESPONSE_PHASE_WAIT_TIME[currentLevel % 10]))+50,
     false);
 
-=======
   // yield_sleep_ms(1300, false);
   // wait time before response phase and detect touches
   yield_wait_for_with_timeout(hub.AnyButtonPressed(), random(50,2800),false);
->>>>>>> Level 4, random delay between present and response
   if(hub.AnyButtonPressed()){
     touchLog[touchLogIndex] = hub.AnyButtonPressed();
     touchLogTimes[touchLogIndex] = millis() - timestampBefore;
