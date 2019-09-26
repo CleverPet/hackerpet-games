@@ -64,6 +64,7 @@ const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
+const int AUDIO_VOLUME = 60; //[0-99]
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
 const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait until restarting the
                                                     // interaction
@@ -321,6 +322,9 @@ bool playSimon(){
   // }
   // Log.info(seq);
 
+  // turn off the button sounds - we're doing these manually
+  hub.SetButtonAudioEnabled(0);
+
 //------------------------------------------------------------------------------
     // PRESENTATION PHASE
 
@@ -355,7 +359,7 @@ bool playSimon(){
         TARGET_PRESENT_INTENSITY_BLUE,
         SLEW);
       // play touchpad sound
-      hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), 60);
+      hub.PlayAudio(buttonToAudio(touchpad_sequence[sequence_pos]), AUDIO_VOLUME);
       // give the Hub a moment to finish playing the sound and detect touches
       yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+200,false);
       if(hub.AnyButtonPressed()){break;}
@@ -433,10 +437,6 @@ bool playSimon(){
         dodoSoundPlayed = true;
       }
 
-
-      // turn on the button sounds
-      hub.SetButtonAudioEnabled(1);
-
       timestampTouchpad = millis();
       do
       {
@@ -449,15 +449,20 @@ bool playSimon(){
               //0 if timed out
           // no timeouts for now
               /*&& millis()  < timestampTouchpad + TIMEOUT_INTERACTIONS_MS*/);
-      // disable button sound
-      hub.SetButtonAudioEnabled(0);
-      hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
-      // give the Hub a moment to finish playing the touchpad sound
-      yield_sleep_ms(SOUND_TOUCHPAD_DELAY, false);
 
       if (pressed[sequence_pos] != 0)
       {
         Log.info("Touchpad touched");
+
+        hub.SetLightsRGB(
+          pressed[sequence_pos],
+          TARGET_RESPONSE_INTENSITY_RED,
+          TARGET_RESPONSE_INTENSITY_GREEN,
+          TARGET_RESPONSE_INTENSITY_BLUE,
+          SLEW);
+        hub.PlayAudio(buttonToAudio(pressed[sequence_pos]), AUDIO_VOLUME);
+        yield_sleep_ms(SOUND_TOUCHPAD_DELAY-50, false);
+        hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
 
         // Do lots of logging
         touchLog[touchLogIndex] = pressed[sequence_pos];
@@ -538,7 +543,7 @@ bool playSimon(){
 
   if (accurate) {
     Log.info("Sequence correct");
-    hub.PlayAudio(hub.AUDIO_POSITIVE, 60);
+    hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
     // give the Hub a moment to finish playing the reward sound
     yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
 
@@ -546,7 +551,7 @@ bool playSimon(){
     if(foodtreatPresented){
       Log.info("Dispensing foodtreat");
       
-      hub.PlayAudio(hub.AUDIO_POSITIVE, 60);
+      hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
       // give the Hub a moment to finish playing the reward sound
       yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
 
@@ -569,7 +574,7 @@ bool playSimon(){
     }
   } else {
     if (!timeout) {
-      hub.PlayAudio(hub.AUDIO_NEGATIVE, 60);
+      hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
       // give the Hub a moment to finish playing the sound
       yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
       foodtreatWasEaten = false;
