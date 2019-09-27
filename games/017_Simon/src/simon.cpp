@@ -66,7 +66,7 @@ const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
 const int AUDIO_VOLUME = 60; //[0-99]
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
-const unsigned long TIMEOUT_INTERACTIONS_MS = 5000; // (ms) how long to wait until restarting the
+const unsigned long TIMEOUT_INTERACTIONS_MS = 10000; // (ms) how long to wait until restarting the
                                                     // interaction
 const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
 const double HINT_INTENSITY_MULTIPL[] = {1.00,0.30,0,0,1.00,1.00,1.00,1.00,1.00,
@@ -236,6 +236,7 @@ bool playSimon(){
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
+  static unsigned char tmpPressed = 0;
   static int sequenceLength = 0; // sequence length (gets calculated)
   static int touchLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
@@ -258,6 +259,7 @@ bool playSimon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
+  tmpPressed = 0;
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
@@ -324,6 +326,23 @@ bool playSimon(){
 
   // turn off the button sounds - we're doing these manually
   hub.SetButtonAudioEnabled(0);
+
+  hub.SetLights(hub.LIGHT_CUE,0,0,0);
+  hub.SetLights(hub.LIGHT_BTNS,30,30,SLEW);
+
+  do
+    {
+        // detect any buttons currently pressed
+        tmpPressed= hub.AnyButtonPressed();
+        // use yields statements any time the hub is pausing or waiting
+        yield(false);
+    }
+    while (!(tmpPressed != 0)); //0 if any touchpad is touched
+
+    hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+
+  // wait until: no button is currently pressed
+  yield_wait_for((!hub.AnyButtonPressed()), false);
 
 //------------------------------------------------------------------------------
     // PRESENTATION PHASE
@@ -443,12 +462,24 @@ bool playSimon(){
           // detect any buttons currently pressed
           pressed[sequence_pos] = hub.AnyButtonPressed();
           // use yields statements any time the hub is pausing or waiting
+          if ( hintIntensityMultipl == 0 && ((millis() - timestampBefore) > HINT_WAIT * (timedHintCount + 1) ))
+          {
+            timedHintCount++;
+            hub.SetLightsRGB(
+              touchpad_sequence[sequence_pos],
+              TARGET_RESPONSE_INTENSITY_RED/4,
+              TARGET_RESPONSE_INTENSITY_GREEN/4,
+              TARGET_RESPONSE_INTENSITY_BLUE/4,
+              SLEW);
+            yield_sleep_ms(60, false);
+            hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+          }
           yield(false);
       }
       while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
               //0 if timed out
           // no timeouts for now
-              /*&& millis()  < timestampTouchpad + TIMEOUT_INTERACTIONS_MS*/);
+              && millis()  < timestampTouchpad + TIMEOUT_INTERACTIONS_MS);
 
       if (pressed[sequence_pos] != 0)
       {
