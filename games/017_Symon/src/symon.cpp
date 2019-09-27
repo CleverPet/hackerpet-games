@@ -271,6 +271,7 @@ bool playSymon(){
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
+  static unsigned char tmpPressed = 0;
   static int sequenceLength = 0; // sequence length (gets calculated)
   static int touchLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
@@ -293,6 +294,7 @@ bool playSymon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
+  tmpPressed = 0;
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
@@ -531,6 +533,18 @@ bool playSymon(){
           // detect any buttons currently pressed
           pressed[sequence_pos] = hub.AnyButtonPressed();
           // use yields statements any time the hub is pausing or waiting
+          if ( hintIntensityMultipl == 0 && ((millis() - timestampBefore) > HINT_WAIT * (timedHintCount + 1) ))
+          {
+            timedHintCount++;
+            hub.SetLightsRGB(
+              touchpad_sequence[sequence_pos],
+              TARGET_RESPONSE_INTENSITY_RED/4,
+              TARGET_RESPONSE_INTENSITY_GREEN/4,
+              TARGET_RESPONSE_INTENSITY_BLUE/4,
+              SLEW);
+            yield_sleep_ms(60, false);
+            hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+          }
           yield(false);
       }
       while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
