@@ -80,9 +80,9 @@ const int REINFORCE_RATIO =   100; // the foodtreat reinforcement ratio [0-100] 
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_BLUE = 0; // [0-99]
-const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99] // cue / status light is white in response phase
-const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 5; // [0-99]
-const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 5; // [0-99]
+const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 99; // [0-99] // cue / status light is white in response phase
+const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 99; // [0-99]
+const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 99; // [0-99]
 const int SLEW = 0; // slew for all lights [0-99]
 const int START_INTENSITY_RED = 40; // [0-99]
 const int START_INTENSITY_GREEN = 40; // [0-99]
@@ -470,13 +470,6 @@ bool playSymon(){
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
 
-    // illuminate cue light White
-  hub.SetLightsRGB(
-    hub.LIGHT_CUE,
-    CUE_LIGHT_RESPONSE_INTENSITY_RED,
-    CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
-    CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
-    SLEW);
 
   if(!presentMisses){
     // delay after turning cue light to white
@@ -523,8 +516,15 @@ bool playSymon(){
         hub.PlayAudio(hub.AUDIO_DO, 90);
         yield_sleep_ms(SOUND_DO_DELAY, false);
         hub.PlayAudio(hub.AUDIO_DO, 90);
+        hub.SetLightsRGB(
+          hub.LIGHT_CUE,
+          CUE_LIGHT_RESPONSE_INTENSITY_RED,
+          CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
+          CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
+          SLEW);
         yield_sleep_ms(SOUND_DO_DELAY, false);
         dodoSoundPlayed = true;
+        // illuminate cue light White
       }
 
       timestampTouchpad = millis();
