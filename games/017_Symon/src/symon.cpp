@@ -282,6 +282,7 @@ bool playSymon(){
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static int retryCounter = 0; // do not re-initialize
   static bool dodoSoundPlayed = false;
+  static int timedHintCount = 0; // to keep the size of the number of perf numbers to consider
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
   sequenceLength = 0;
@@ -294,7 +295,9 @@ bool playSymon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
+  timedHintCount = 0;
   tmpPressed = 0;
+
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
