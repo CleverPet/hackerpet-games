@@ -13,28 +13,6 @@
 #include <hackerpet.h>
 #include <algorithm>
 
-
-/* Yield Sleep milliseconds with timeout
- *
- * Waits for the specified number of milliseconds, yielding while waiting.
- * Uses millis() function, which overflows and returns to zero every ~49 days
- */
-/* Yield Wait For with timeout
- *
- * Waits for a condition while yielding whenever the condition is not true.
- * Passes the ret parameter whenever yielding.
- */
-#define yield_wait_for_with_timeout(condition, timeout_time_in_milliseconds, ret)\
-  do {                                                                         \
-    static unsigned long t1 = 0;                                               \
-    t1 = millis();                                                             \
-    while (!(condition) && (millis() - t1)                                     \
-           < timeout_time_in_milliseconds) {                                   \
-      yield(ret);                                                              \
-    }                                                                          \
-  } while (0)
-
-
 // Set this to the name of your player (dog, cat, etc.)
 const char PlayerName[] = "Pet, Clever";
 
