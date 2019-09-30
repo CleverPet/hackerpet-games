@@ -71,11 +71,11 @@ const char PlayerName[] = "Salk";
  * gameplay
  */
 int currentLevel = 10; // LEVELS START AT 10
-// Performance calculations
-const int HISTORY_LENGTH =    8;   // Number of past interactions to look at for performance
-const int ENOUGH_SUCCESSES =  7;   // if successes >= ENOUGH_SUCCESSES level-up
-const int TOO_MANY_MISSES =   5;   // if num misses >= TOO_MANY_MISSES level-down
-const int REINFORCE_RATIO =   100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
+const int MIN_LEVEL =      10;   // Number of past interactions to look at for performance
+const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
+const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
+const int TOO_MANY_MISSES=     7;   // if num misses >= TOO_MANY_MISSES level-down
+const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
 // LED colors and intensities
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
