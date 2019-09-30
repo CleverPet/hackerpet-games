@@ -572,6 +572,7 @@ bool playSimon(){
         Log.info("No touchpad pressed, timeout");
         accurate = false;
         timeout = true;
+        break;
       }
     }
   } else {
