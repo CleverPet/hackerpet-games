@@ -119,6 +119,8 @@ const unsigned long SOUND_AUDIO_NEGATIVE_DELAY = 350;
 const unsigned long SOUND_TOUCHPAD_DELAY = 300; // (ms) delay for touchpad sound
 const unsigned long SOUND_DO_DELAY = 150; // (ms) delay for reward sound
 
+const unsigned long HINT_WAIT = 9000;
+
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
 unsigned char perfDepth = 0; // to keep the size of the number of perf numbers to consider
