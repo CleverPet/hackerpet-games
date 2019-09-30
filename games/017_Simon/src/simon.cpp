@@ -348,11 +348,17 @@ bool playSimon(){
   yield_wait_for(hub.AnyButtonPressed(), false);
   if(hub.AnyButtonPressed()){
     touchLog[touchLogIndex] = hub.AnyButtonPressed();
-    touchLogTimes[touchLogIndex] = millis() - timestampBefore;
-    touchLogIndex++;}
+    touchLogTimes[touchLogIndex] = 0;
+    touchLogIndex++;
+    // Record start timestamp for performance logging
+    timestampBefore = millis();
+  }
 
   // turn off all touchpad lights
   hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
+
+  // slight delay to prevent double presses to show up as a miss
+  yield_sleep_ms(100, false);
 
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
@@ -500,8 +506,6 @@ bool playSimon(){
           TARGET_RESPONSE_INTENSITY_GREEN,
           TARGET_RESPONSE_INTENSITY_BLUE,
           SLEW);
-        hub.PlayAudio(buttonToAudio(pressed[sequence_pos]), AUDIO_VOLUME);
-        yield_sleep_ms(SOUND_TOUCHPAD_DELAY-50, false);
         hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
 
         // Do lots of logging
@@ -512,6 +516,9 @@ bool playSimon(){
         timeout = false;
         if (pressed[sequence_pos] == touchpad_sequence[sequence_pos]){
           // correct touchpad touched in sequence
+          // play touchpad sound
+          hub.PlayAudio(buttonToAudio(pressed[sequence_pos]), AUDIO_VOLUME);
+          yield_sleep_ms(SOUND_TOUCHPAD_DELAY-50, false);
           accurate = true;
           Log.info("Correct");
         } else {
