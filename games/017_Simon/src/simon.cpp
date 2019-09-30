@@ -58,6 +58,9 @@ const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99] // cue / status light 
 const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 5; // [0-99]
 const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 5; // [0-99]
 const int SLEW = 0; // slew for all lights [0-99]
+const int START_INTENSITY_RED = 40; // [0-99]
+const int START_INTENSITY_GREEN = 40; // [0-99]
+const int START_INTENSITY_BLUE = 40; // [0-99]
 const int TARGET_PRESENT_INTENSITY_RED = 80; // [0-99]
 const int TARGET_PRESENT_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
@@ -236,7 +239,6 @@ bool playSimon(){
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
-  static unsigned char tmpPressed = 0;
   static int sequenceLength = 0; // sequence length (gets calculated)
   static int touchLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
@@ -259,7 +261,6 @@ bool playSimon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
-  tmpPressed = 0;
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
@@ -316,41 +317,49 @@ bool playSimon(){
 
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
   currentLevel, sequenceLength, countSuccesses(), countMisses());
-  // log sequence
-  
-  // String seq = "Sequence: ";
-  // for (int i = 0; i < sequenceLength; ++i){
-  //     seq += convertBitfieldToLetter(touchpad_sequence[i]);
-  // }
-  // Log.info(seq);
 
-  // turn off the button sounds - we're doing these manually
+  // Log sequence
+  // String seqString = "Sequence: ";
+  // for (int i = 0; i < sequenceLength; ++i){
+  //     seqString += convertBitfieldToLetter(touchpad_sequence[i]);
+  //     if (i < (sequenceLength -1)){seqString += ",";}
+  // }
+  // Log.info(seqString);
+
+  // Record start timestamp for performance logging
+  timestampBefore = millis();
+
+  // turn off the button sounds, this isn't part of the game yet
   hub.SetButtonAudioEnabled(0);
 
+  // turn off the cue light
   hub.SetLights(hub.LIGHT_CUE,0,0,0);
-  hub.SetLights(hub.LIGHT_BTNS,30,30,SLEW);
 
-  do
-    {
-        // detect any buttons currently pressed
-        tmpPressed= hub.AnyButtonPressed();
-        // use yields statements any time the hub is pausing or waiting
-        yield(false);
-    }
-    while (!(tmpPressed != 0)); //0 if any touchpad is touched
+  // turn on the touchpad lights at start intensity
+  hub.SetLightsRGB(
+    hub.LIGHT_BTNS,
+    START_INTENSITY_RED,
+    START_INTENSITY_GREEN,
+    START_INTENSITY_BLUE,
+    SLEW);
 
-    hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+  // wait until: a button is currently pressed
+  yield_wait_for(hub.AnyButtonPressed(), false);
+  if(hub.AnyButtonPressed()){
+    touchLog[touchLogIndex] = hub.AnyButtonPressed();
+    touchLogTimes[touchLogIndex] = millis() - timestampBefore;
+    touchLogIndex++;}
+
+  // turn off all touchpad lights
+  hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
 
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
 
 //------------------------------------------------------------------------------
-    // PRESENTATION PHASE
+    // SEE PHASE
 
-  // Record start timestamp for performance logging
-  timestampBefore = millis();
-
-  // turn off the button sounds
+  // turn off the button sounds - we're doing these manually
   hub.SetButtonAudioEnabled(0);
 
   // illuminate cue light Yellow
@@ -360,7 +369,7 @@ bool playSimon(){
     CUE_LIGHT_PRESENT_INTENSITY_GREEN,
     CUE_LIGHT_PRESENT_INTENSITY_BLUE,
     SLEW);
-  
+
   // play DO sound
   hub.PlayAudio(hub.AUDIO_DO, 90);
     // give the Hub a moment to finish playing the sound and detect touches
@@ -390,7 +399,7 @@ bool playSimon(){
 
   // yield_sleep_ms(1300, false);
   // wait time before response phase and detect touches
-  yield_wait_for_with_timeout(hub.AnyButtonPressed(), 50,false);
+  yield_wait_for_with_timeout(hub.AnyButtonPressed(), 50, false);
   if(hub.AnyButtonPressed()){
     touchLog[touchLogIndex] = hub.AnyButtonPressed();
     touchLogTimes[touchLogIndex] = millis() - timestampBefore;
@@ -405,7 +414,7 @@ bool playSimon(){
 
 
 //------------------------------------------------------------------------------
-    // RESPONSE PHASE
+    // DO PHASE
 
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
@@ -560,6 +569,9 @@ bool playSimon(){
     timeout = false;
   }
 
+  // game end turn off cue light
+  hub.SetLights(hub.LIGHT_CUE,0,0,0);
+
   if (accurate) {
     Log.info("Sequence correct");
     hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
@@ -569,7 +581,7 @@ bool playSimon(){
     foodtreatPresented = (((int)(rand() % 100)) <= REINFORCE_RATIO);
     if(foodtreatPresented){
       Log.info("Dispensing foodtreat");
-      
+
       hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
       // give the Hub a moment to finish playing the reward sound
       yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
