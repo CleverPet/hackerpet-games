@@ -42,13 +42,14 @@ const char PlayerName[] = "Pet, Clever";
  * Challenge settings
  * -------------
  *
- * These constants (capitalized CamelCase) and variables (camelCase) define the
+ * These constants (capitalized) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 1; // starting level
-const int HISTORY_LENGTH=      5;   // Number of past interactions to look at for performance
+int currentLevel = 10; // LEVELS START AT 10
+// Performance calculations
+const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
-const int TOO_MANY_MISSES=     4;   // if num misses >= TOO_MANY_MISSES level-down
+const int TOO_MANY_MISSES=     7;   // if num misses >= TOO_MANY_MISSES level-down
 const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
 // LED colors and intensities
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
@@ -67,17 +68,20 @@ const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
+const int HINT_INTENSITY_MULTIPL_1[] = {100,30,5,0,0,0,0,0,0,0}; // for level 10-10
+const int HINT_INTENSITY_MULTIPL_2[] = {100,30,25,20,15,10,7,5,2,0}; // for level 20 on
+// Volume
 const int AUDIO_VOLUME = 60; //[0-99]
+// Delays and wait times
 const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodtreat
 const unsigned long TIMEOUT_INTERACTIONS_MS = 10000; // (ms) how long to wait until restarting the
                                                     // interaction
 const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
-const double HINT_INTENSITY_MULTIPL[] = {1.00,0.30,0,0,1.00,1.00,1.00,1.00,1.00,
-              0.80,0.70,0.50,0.40,0.30,0.20,0.15,0.10,0.05,0.02,0};
-const int END_ON_MISS_CHANCE_1[] = {100,0,25,100};
-const int END_ON_MISS_CHANCE_2[] = {0,15,20,25,30,35,40,45,50,55,60,65,70,75,85,100};
-const int END_ON_MISS_CHANCE_3[] = {0,40,50,55,60,65,70,75,80,85,90,95,100,100,100,100};
-
+const int RESPONSE_PHASE_WAIT_TIME[] = {250,250,250,250,500,1000,1500,2000,2500,3000}; // for all levels
+// Chance calculations
+const int END_ON_MISS_CHANCE_1[] = {100,0,25,50,100,100,100,100,100,100}; // for level 10 - 19
+const int END_ON_MISS_CHANCE_2[] = {0,75,80,85,90,95,100,100,100,100}; // for level 20 on and seq_pos == seq_lenght-2
+const int END_ON_MISS_CHANCE_3[] = {0,45,50,55,60,65,70,75,85,100}; // for level 20 on and  seq_pos == seq_length-1
 /**
  * Global variables and constants
  * ------------------------------
@@ -235,7 +239,7 @@ bool playSimon(){
                                    hub.BUTTON_MIDDLE,
                                    hub.BUTTON_RIGHT};
   static unsigned char sequence_pos = 0;
-  static double hintIntensityMultipl = 0;
+  static int hintIntensityMultipl = 0;
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
@@ -298,10 +302,7 @@ bool playSimon(){
   gameStartTime = Time.now();
 
   //calculate sequenceLength
-  if (currentLevel < 5)
-    sequenceLength = 1;
-  else
-    sequenceLength = ((currentLevel-5)/16)+2; // see game-logic chart
+  sequenceLength = (currentLevel/10); // see game-logic chart
 
   if(!retryCounter){
     // fill touchpad_sequence
@@ -356,6 +357,7 @@ bool playSimon(){
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
 
+
 //------------------------------------------------------------------------------
     // SEE PHASE
 
@@ -373,9 +375,6 @@ bool playSimon(){
   // play DO sound
   hub.PlayAudio(hub.AUDIO_DO, 90);
     // give the Hub a moment to finish playing the sound and detect touches
-    // yield_sleep_ms(SOUND_DO_DELAY+500, false);
-    // extra delay between do sound and presentation of sequence and detect touches
-    // yield_sleep_ms(500, false);
   yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_DO_DELAY+500,false);
   if(!hub.AnyButtonPressed()){
     // illuminate sequence
@@ -391,15 +390,17 @@ bool playSimon(){
       // give the Hub a moment to finish playing the sound and detect touches
       yield_wait_for_with_timeout(hub.AnyButtonPressed(), SOUND_TOUCHPAD_DELAY+200,false);
       if(hub.AnyButtonPressed()){break;}
-      
+
       // turn off touchpad light
       hub.SetLights(touchpad_sequence[sequence_pos],0,0,SLEW);
     }
   }
 
-  // yield_sleep_ms(1300, false);
-  // wait time before response phase and detect touches
-  yield_wait_for_with_timeout(hub.AnyButtonPressed(), 50, false);
+  // wait random time before response phase (min:50 max:RESPONSE_PHASE_WAIT_TIME) and detect touches
+  yield_wait_for_with_timeout(hub.AnyButtonPressed(),
+    (random(0,RESPONSE_PHASE_WAIT_TIME[currentLevel % 10]))+50,
+    false);
+
   if(hub.AnyButtonPressed()){
     touchLog[touchLogIndex] = hub.AnyButtonPressed();
     touchLogTimes[touchLogIndex] = millis() - timestampBefore;
@@ -438,21 +439,32 @@ bool playSimon(){
       yield_wait_for((!hub.AnyButtonPressed()), false);
 
       // turn on response hint, see game logic table for intensity calculation
-      if (currentLevel < 5){
-       hintIntensityMultipl = HINT_INTENSITY_MULTIPL[currentLevel-1];
+      if (currentLevel < 20){
+       hintIntensityMultipl = HINT_INTENSITY_MULTIPL_1[currentLevel % 10];
       } else {
-       hintIntensityMultipl = HINT_INTENSITY_MULTIPL[(((currentLevel-5) % 16 ) + 5 ) - 1];
+       hintIntensityMultipl = HINT_INTENSITY_MULTIPL_2[currentLevel % 10];
       }
 
-      // Log.info(String(currentLevel));
-      // Log.info(String(sequence_pos));
-      // Log.info(String(hintIntensityMultipl));
+      // Log.info("currentLevel: %u", currentLevel);
+      // Log.info("sequence_pos: %u", sequence_pos);
+      // Log.info("hintIntensityMultipl: %d", hintIntensityMultipl);
+
+      // randomize hint intensities higher than 5
+      if (hintIntensityMultipl > 5)
+      {
+        int newHintIntensityMultipl = random(5,(hintIntensityMultipl*2));
+        // Log.info("newHintIntensityMultipl: %d", newHintIntensityMultipl);
+        if (newHintIntensityMultipl < hintIntensityMultipl)
+          hintIntensityMultipl = newHintIntensityMultipl;
+      }
+
+      // Log.info("randomized hintIntensityMultipl: %d", hintIntensityMultipl);
 
       hub.SetLightsRGB(
         touchpad_sequence[sequence_pos],
-        (TARGET_RESPONSE_INTENSITY_RED * hintIntensityMultipl),
-        (TARGET_RESPONSE_INTENSITY_GREEN * hintIntensityMultipl),
-        (TARGET_RESPONSE_INTENSITY_BLUE * hintIntensityMultipl),
+        ((TARGET_RESPONSE_INTENSITY_RED * hintIntensityMultipl) / 100),
+        ((TARGET_RESPONSE_INTENSITY_GREEN * hintIntensityMultipl) / 100),
+        ((TARGET_RESPONSE_INTENSITY_BLUE * hintIntensityMultipl) / 100),
         SLEW);
 
       // on first light in sequence, play DODO sound
@@ -507,23 +519,22 @@ bool playSimon(){
           accurate = false;
           responseMisses++;
 
-          // Log.info("currentLevel: %u", currentLevel);
-          // Log.info("sequence_pos: %u", sequence_pos);
-          // Log.info("sequenceLength: %u", sequenceLength);
-
           // calculate End On Miss chance [0-100], see game-logic table for formulas
           int eom = 0;
           if (sequenceLength == 1) {
-            eom = END_ON_MISS_CHANCE_1[currentLevel-1];
-          } else if ((sequenceLength - 1) == sequence_pos) {
-            eom = END_ON_MISS_CHANCE_2[((currentLevel-5)%16)];
-          } else if ((sequenceLength - 1) == (sequence_pos + 1)){
-            eom = END_ON_MISS_CHANCE_3[((currentLevel-5)%16)];
-          } else if ((sequenceLength - 1) > (sequence_pos + 1)) {
+            eom = END_ON_MISS_CHANCE_1[currentLevel % 10];
+          } else if (sequence_pos == (sequenceLength - 2)) {
+            eom = END_ON_MISS_CHANCE_2[currentLevel % 10];
+          } else if (sequence_pos == (sequenceLength - 1)){
+            eom = END_ON_MISS_CHANCE_3[currentLevel % 10];
+          } else if (sequence_pos < (sequenceLength - 2)) {
             eom = 100;
           }
 
-          Log.info("eom value: %u", eom);
+          // Log.info("currentLevel: %u", currentLevel);
+          // Log.info("sequence_pos: %u", sequence_pos);
+          // Log.info("sequenceLength: %u", sequenceLength);
+          // Log.info("eom value: %u", eom);
 
           // we have a miss, spin the wheel, rien ne vas plus
           int rando = ((int)(rand() % 100));
@@ -534,8 +545,8 @@ bool playSimon(){
           if (lucky){
             Log.info("Touch tollerated, ignoring touch");
 
-            // on level 2 and 3 we flash the correct pad on a miss
-            if(currentLevel == 2 || currentLevel == 3){
+            // on level 11 and 12 we flash the correct pad on a miss
+            if(currentLevel == 11 || currentLevel == 12){
               Log.info("Giving post-cue");
               hub.SetLightsRGB(
                 touchpad_sequence[sequence_pos],
@@ -561,6 +572,7 @@ bool playSimon(){
         Log.info("No touchpad pressed, timeout");
         accurate = false;
         timeout = true;
+        break;
       }
     }
   } else {
@@ -569,7 +581,7 @@ bool playSimon(){
     timeout = false;
   }
 
-  // game end turn off cue light
+  // game end, turn off cue light
   hub.SetLights(hub.LIGHT_CUE,0,0,0);
 
   if (accurate) {
@@ -642,7 +654,7 @@ bool playSimon(){
     extra += String(responseMisses);
     if(presentMisses == 0){
       extra += "\",\"hintIntensity\":\"";
-      extra += String((int)(hintIntensityMultipl*100)); // is the same for whole seq in one level
+      extra += String(hintIntensityMultipl); // is the same for whole seq in one level
     }
     extra += "\",\"reinforceRatio\":\"";
     extra += String(REINFORCE_RATIO);
