@@ -242,6 +242,26 @@ bool playEngagingConsistently() {
     }
   }
 
+  if (!timeout) {
+    // Send report
+    Log.info("Sending report");
+    String extra = String::format(
+        "{\"pos_tries\":%u,\"neg_tries\":%u", countSuccesses(), countMisses());
+    if (challengeComplete) {extra += ",\"challengeComplete\":1";}
+    extra += "}";
+
+    hub.Report(
+        Time.format(gameStartTime, TIME_FORMAT_ISO8601_FULL), // play_start_time
+        PlayerName,                                           // player
+        currentLevel,                                         // level
+        String(foodtreatWasEaten),                            // result
+        reactionTime, // duration -> linked to level and includes tray movement
+        1,             // foodtreat_presented
+        foodtreatWasEaten, // foodtreatWasEaten
+        extra                // extra field
+    );
+  }
+
   // Check if we're ready for next challenge
   if (currentLevel == MAX_LEVEL) {
     addResultToPerformanceHistory(foodtreatWasEaten);
@@ -263,7 +283,7 @@ bool playEngagingConsistently() {
   }
 
   // Decrease level if bad performance in this level
-  // BAD_PERFORMACE is really high, so will never come here
+  // TOO_MANY_MISSES is really high, so will never come here
   if (countMisses() >= TOO_MANY_MISSES) {
     if (currentLevel > 1) {
       currentLevel--;
@@ -271,24 +291,6 @@ bool playEngagingConsistently() {
       reset_challenge_timer = true;
     }
   }
-
-  // Send report
-  Log.info("Sending report");
-  String extra = String::format(
-      "{\"pos_tries\":%u,\"neg_tries\":%u", countSuccesses(), countMisses());
-  if (challengeComplete) {extra += ",\"challengeComplete\":1";}
-  extra += "}";
-
-  hub.Report(
-      Time.format(gameStartTime, TIME_FORMAT_ISO8601_FULL), // play_start_time
-      PlayerName,                                           // player
-      currentLevel,                                         // level //TODO is this the correct level?
-      String(foodtreatWasEaten),                            // result
-      reactionTime, // duration -> linked to level and includes tray movement
-      1,             // foodtreat_presented
-      foodtreatWasEaten, // foodtreatWasEaten
-      extra                // extra field
-  );
 
   // printPerformanceArray();
 
