@@ -68,7 +68,7 @@ const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
-const int HINT_INTENSITY_MULTIPL_1[] = {100,30,5,0,0,0,0,0,0,0}; // for level 10-10
+const int HINT_INTENSITY_MULTIPL_1[] = {100,30,5,0,0,0,0,0,0,0}; // for level 10-19
 const int HINT_INTENSITY_MULTIPL_2[] = {100,30,25,20,15,10,7,5,2,0}; // for level 20 on
 // Volume
 const int AUDIO_VOLUME = 60; //[0-99]
@@ -326,9 +326,6 @@ bool playSimon(){
   //     if (i < (sequenceLength -1)){seqString += ",";}
   // }
   // Log.info(seqString);
-
-  // Record start timestamp for performance logging
-  timestampBefore = millis();
 
   // turn off the button sounds, this isn't part of the game yet
   hub.SetButtonAudioEnabled(0);
