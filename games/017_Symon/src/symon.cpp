@@ -138,6 +138,21 @@ HubInterface hub;
 // enables simultaneous execution of application and system thread
 SYSTEM_THREAD(ENABLED);
 
+int giveFoodtreat(String command)
+{
+    Log.info("Received giveFoodtreat.");
+    int foodtreat_duration = 5000;
+    if (command.length() > 0)
+    {
+        foodtreat_duration = command.toInt();
+    }
+
+    Log.info("Foodtreat present duration is %d", foodtreat_duration);
+
+    hub.PresentAndCheckFoodtreat(foodtreat_duration);
+    return 1;
+}
+
 /**
  * Helper functions
  * ----------------
@@ -803,6 +818,7 @@ bool playSymon(){
  * --------------
  */
 void setup() {
+  Particle.function("giveFoodtreat", giveFoodtreat);
   // Initializes the hub and passes the current filename as ID for reporting
   hub.Initialize(__FILE__);
   hub.ResetFoodMachine();
