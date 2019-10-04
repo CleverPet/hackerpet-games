@@ -1,5 +1,5 @@
 /**
-  Simon
+  Symon
   =========================
 
 
@@ -230,7 +230,7 @@ int buttonToAudio(unsigned char button){
 }
 
 /// The actual LearningLongerSequences function. This function needs to be called in a loop.
-bool playSimon(){
+bool playSymon(){
   yield_begin();
 
   static const int SEQUENCE_LENGTHMAX = 20;
@@ -288,7 +288,7 @@ bool playSimon(){
   responseMisses = 0;
 
   Log.info("-------------------------------------------");
-  Log.info("Starting new \"Simon\" challenge");
+  Log.info("Starting new \"Symon\" challenge");
 
   // before starting interaction, wait until:
   //  1. device layer is ready (in a good state)
@@ -757,7 +757,7 @@ void loop()
 
   // Play 1 interaction of the Learning Longer Sequences challenge
   // Will return true if level is done
-  gameIsComplete = playSimon();
+  gameIsComplete = playSymon();
 
   if(gameIsComplete){
     // Interaction end
