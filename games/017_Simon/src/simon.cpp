@@ -68,6 +68,9 @@ const int TARGET_PRESENT_INTENSITY_BLUE = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_RED = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_GREEN = 80; // [0-99]
 const int TARGET_RESPONSE_INTENSITY_BLUE = 80; // [0-99]
+const int TARGET_RESPONSE_MISS_INTENSITY_RED = 99; // [0-99]
+const int TARGET_RESPONSE_MISS_INTENSITY_GREEN = 99; // [0-99]
+const int TARGET_RESPONSE_MISS_INTENSITY_BLUE = 0; // [0-99]
 const int HINT_INTENSITY_MULTIPL_1[] = {100,30,5,0,0,0,0,0,0,0}; // for level 10-19
 const int HINT_INTENSITY_MULTIPL_2[] = {100,30,25,20,15,10,7,5,2,0}; // for level 20 on
 // Volume
@@ -497,14 +500,6 @@ bool playSimon(){
       {
         Log.info("Touchpad touched");
 
-        hub.SetLightsRGB(
-          pressed[sequence_pos],
-          TARGET_RESPONSE_INTENSITY_RED,
-          TARGET_RESPONSE_INTENSITY_GREEN,
-          TARGET_RESPONSE_INTENSITY_BLUE,
-          SLEW);
-        hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
-
         // Do lots of logging
         touchLog[touchLogIndex] = pressed[sequence_pos];
         touchLogTimes[touchLogIndex] = millis() - timestampBefore;
@@ -513,12 +508,31 @@ bool playSimon(){
         timeout = false;
         if (pressed[sequence_pos] == touchpad_sequence[sequence_pos]){
           // correct touchpad touched in sequence
+          // blink correct touchpad
+          hub.SetLightsRGB(
+            pressed[sequence_pos],
+            TARGET_RESPONSE_INTENSITY_RED,
+            TARGET_RESPONSE_INTENSITY_GREEN,
+            TARGET_RESPONSE_INTENSITY_BLUE,
+            SLEW);
+          yield_sleep_ms(20, false);
+          hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
           // play touchpad sound
           hub.PlayAudio(buttonToAudio(pressed[sequence_pos]), AUDIO_VOLUME);
           yield_sleep_ms(SOUND_TOUCHPAD_DELAY-50, false);
           accurate = true;
           Log.info("Correct");
         } else {
+          // wrong touchpad touched
+          // blink wrong touchpad
+          hub.SetLightsRGB(
+            pressed[sequence_pos],
+            TARGET_RESPONSE_MISS_INTENSITY_RED,
+            TARGET_RESPONSE_MISS_INTENSITY_GREEN,
+            TARGET_RESPONSE_MISS_INTENSITY_BLUE,
+            SLEW);
+          yield_sleep_ms(20, false);
+          hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights          
           Log.info("Miss");
           accurate = false;
           responseMisses++;
