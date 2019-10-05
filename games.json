@@ -5,7 +5,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Example game for the hackerpet hub, hosted on the hackerpet-games repository.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/hello-world/",
 		"tags":["CleverPet"]
 	},
@@ -14,7 +13,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Help your player get comfortable with the Hub’s sounds and movements.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/000_EatingTheFood/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/000_EatingTheFood/EatingTheFood.gif",
 		"tags":["Original","CleverPet"]
@@ -24,7 +22,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"A foodtreat is offered, but the player will also earn a reward when they press a touchpad.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/001_ExploringTheTouchpads/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/001_ExploringTheTouchpads/ExploringTheTouchpads.gif",
 		"tags":["Original","CleverPet"]
@@ -34,7 +31,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Now your player will need to press a touchpad to earn a reward.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/002_EngagingConsistently/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/002_EngagingConsistently/EngagingConsistently.gif",
 		"tags":["Original","CleverPet"]
@@ -44,7 +40,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player must learn that only pressing illuminated touchpads results in success.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/003_AvoidingUnlitTouchpads/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/003_AvoidingUnlitTouchpads/AvoidingUnlitTouchpads.gif",
 		"tags":["Original","CleverPet"]
@@ -54,7 +49,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Only one touchpad is illuminated in this challenge.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/004_LearningTheLights/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/004_LearningTheLights/LearningTheLights.gif",
 		"tags":["Original","CleverPet"]
@@ -64,7 +58,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Only one lit touchpad, and now your player will need to engage even more consistently.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/005_MasteringTheLights/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/005_MasteringTheLights/MasteringTheLights.gif",
 		"tags":["Original","CleverPet"]
@@ -74,7 +67,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player now has to press two touchpads in a row to solve one puzzle.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/006_RespondingQuickly/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/006_RespondingQuickly/RespondingQuickly.gif",
 		"tags":["Original","CleverPet"]
@@ -84,7 +76,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"After the first press, your player will need to choose the brightest touchpad.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/007_LearningBrightness/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/007_LearningBrightness/LearningBrightness.gif",
 		"tags":["Original","CleverPet"]
@@ -94,7 +85,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player must press the brightest touchpad accurately twice in a row.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/008_LearningDoubleSequences/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/008_LearningDoubleSequences/LearningDoubleSequences.gif",
 		"tags":["Original","CleverPet"]
@@ -104,7 +94,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"Your player is challenged to complete patterns of up to nine moves in a row.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/009_LearningLongerSequences/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/009_LearningLongerSequences/LearningLongerSequences.gif",
 		"tags":["Original","CleverPet"]
@@ -114,7 +103,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"The Hub introduces colors, your player’s job is to make all the touchpads match.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/010_MatchingTwoColors/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/010_MatchingTwoColors/MatchingTwoColors.gif",
 		"tags":["Original","CleverPet"]
@@ -124,7 +112,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This challenge adds white to the mix, the number of solutions grows exponentially!",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/011_MatchingMoreColors/",
 		"media": "https://github.com/CleverPet/HackerPet-games/games/011_MatchingMoreColors/MatchingMoreColors.gif",
 		"tags":["Original","CleverPet"]
@@ -134,7 +121,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"An introduction to the basics of building hackerpet interactions. It will wait until the Hub's Device Layer is in a good state, then turn on the main lights, and then wait for one of the Hub's touchpads to be touched.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/012_hello-animal/",
 		"media": "",
 		"tags":["Community","CleverPet"]
@@ -144,7 +130,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This game can be useful during initial training of a player to use the Hub.",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/013_OneTwoThreeButtonGame/",
 		"media": "",
 		"tags":["Community","CleverPet"]
@@ -154,7 +139,6 @@
 		"author": "CleverPet <hello@clever.pet>",
 		"description_sentence":"This challenge adds white to the mix, the number of solutions grows exponentially!",
 		"description_paragraph":"",
-		"type": "github.com",
 		"url": "https://github.com/CleverPet/HackerPet-games/games/014_ColorMatchGame/",
 		"media": "",
 		"tags":["Community"]
@@ -162,20 +146,27 @@
 	{
 		"title": "WhackAMole",
 		"author": "CleverPet <hello@clever.pet>",
-		"description_sentence":"(hosted on build.particle.io) - This is a more \"active\" game for the Hub that challenges your player's \"paw-eye\" coordination.",
+		"description_sentence":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
 		"description_paragraph":"",
-		"type": "build.particle.io",
-		"url": "https://go.particle.io/shared_apps/5d6229549628d800059f724d",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/015_ColorMatchGame/",
 		"media": "",
 		"tags":["Community","CleverPet"]
 	},
 	{
-		"title": "WhackAMole",
-		"author": "CleverPet <hello@clever.pet>",
-		"description_sentence":"Once your dog or cat can see the lights easily, this is a more \"active\" game for the Hub that challenges your dog or cat's \"paw-eye\" coordination",
+		"title": "ControlPet",
+		"author": "Michael Gschwandtner <mgschwan@gmail.com>",
+		"description_sentence":"Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub",
 		"description_paragraph":"",
-		"type": "build.particle.io",
-		"url": "https://github.com/CleverPet/HackerPet-games/games/016_ColorMatchGame/",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/016_ControlPet/",
+		"media": "",
+		"tags":["Community"]
+	},
+	{
+		"title": "Symon",
+		"author": "Jelmer Tiete <jelmer@tiete.be>",
+		"description_sentence":"CleverPet's take on the classic Simon game!",
+		"description_paragraph":"",
+		"url": "https://github.com/CleverPet/HackerPet-games/games/017_Symon/",
 		"media": "",
 		"tags":["Community","CleverPet"]
 	},
