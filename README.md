@@ -39,7 +39,6 @@ you've made yourself!
    | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | [![Install ControlPet](./docs/images/install.png)][ControlPet] | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
    | 17. | [**Symon**](./games/017_Symon) <br><sup>Jelmer&nbsp;Tiete&nbsp;<jelmer@tiete.be></sup> | [![Install Symon](./docs/images/install.png)][Symon] | CleverPet's take on the classic Simon game! | ![]() |
 
-
 --------
 
 ## How to install games
