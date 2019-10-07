@@ -713,7 +713,7 @@ bool playSymon(){
     currentLevel++;
     resetPerformanceHistory();
   } else if (countMisses() >= TOO_MANY_MISSES) {
-    if (currentLevel > 1)
+    if (currentLevel > 10)
     {
       Log.info("Decreasing level! %u", currentLevel);
       currentLevel--;
