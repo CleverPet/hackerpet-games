@@ -70,7 +70,7 @@ const char PlayerName[] = "Salk";
  * These constants (capitalized) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 17; // LEVELS START AT 10
+int currentLevel = 20; // LEVELS START AT 10
 const int MIN_LEVEL =      10;   // Number of past interactions to look at for performance
 const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
@@ -120,6 +120,11 @@ const unsigned long SOUND_TOUCHPAD_DELAY = 300; // (ms) delay for touchpad sound
 const unsigned long SOUND_DO_DELAY = 150; // (ms) delay for reward sound
 
 const unsigned long HINT_WAIT = 9000;
+
+const unsigned int DEFAULT_CORRECTION_EXIT_PERCENT = 20;
+const unsigned int FOCUS_CORRECTION_EXIT_PERCENT = 10;
+const unsigned int FOCUS_SUCCESS_EXIT_PERCENT = 15;
+const unsigned int STREAK_FOOD_MAX = 3;
 
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
@@ -298,8 +303,12 @@ bool playSymon(){
   static bool foodtreatPresented = false; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static int retryCounter = 0; // do not re-initialize
+  static int prevRetryCounter = 0; // do not re-initialize
+  static int streakCounter = 0; // do not re-initialize
+  static bool focusPuzzle = false; // do not re-initialize
   static bool dodoSoundPlayed = false;
   static int timedHintCount = 0; // to keep the size of the number of perf numbers to consider
+  static int i_i = 0; // for iterating over yields
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
   sequenceLength = 0;
@@ -354,9 +363,27 @@ bool playSymon(){
   //calculate sequenceLength
   sequenceLength = (currentLevel/10); // see game-logic chart
 
-  if(!retryCounter){
+  if(!retryCounter || !focusPuzzle) // new game
+  {
+
+    /* 
+    If player gets it wrong first time around, retry with 20% chance of exit 
+
+    If player gets it right first time around, show the player the same one again (focus mode)
+
+      If they then get it wrong on a subsequent try, retry with 10% chance of exit
+
+      If they then get it right on a subsequent try, 
+        if they got the previous x right, give them x % 3 extra food, retry with 15% chance of exit. 
+    */
+
+    /* // old code
+    // only reset the game if they got it right immediately. 
+    if ( !(retryCounter == 0 && prevRetryCounter > 3) 
+            && (random(0, 100) < 40))
+    {
+    */
     // fill touchpad_sequence
-    retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
     {
         /*if (random(0,100) < 50) 
@@ -369,12 +396,14 @@ bool playSymon(){
         touchpad_sequence[i] = touchpads[0];
         //}
     }
-  } else {
+    //}
+    retryCounter = 0; // seems redundant
+  } else { // same game
     Log.info("Doing a retry game");
-    if (retryCounter == 7 || retryCounter == 15)
+    if (retryCounter == 4)
     {
         hub.ResetFoodMachine();
-        yield_sleep_ms(300, false);
+        yield_sleep_ms(400, false);
         yield_wait_for((hub.IsReady()
                 && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
     }
@@ -685,7 +714,21 @@ bool playSymon(){
     yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
 
     foodtreatPresented = (((int)(rand() % 100)) <= REINFORCE_RATIO);
-    if(foodtreatPresented){
+
+    if(foodtreatPresented)
+    {
+      for (i_i = 0; i_i < (streakCounter % (STREAK_FOOD_MAX + 1)); i_i++)
+      {
+        Log.info("Dispensing extra food to dish");
+        hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
+        // give the Hub a moment to finish playing the reward sound
+        yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+
+        hub.ResetFoodMachine();
+        yield_sleep_ms(400, false);
+        yield_wait_for((hub.IsReady()
+                && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
+      }
       Log.info("Dispensing foodtreat");
 
       hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
@@ -780,10 +823,35 @@ bool playSymon(){
     addResultToPerformanceHistory(accurate);
 
     // always do a retry when we the player got it wrong else reset it
+    prevRetryCounter = retryCounter;
     if(!accurate)
-      retryCounter++;
-    else
+    {
+      if ((!focusPuzzle && random(0, 100) > DEFAULT_CORRECTION_EXIT_PERCENT) 
+          || (focusPuzzle && random(0, 100) > FOCUS_CORRECTION_EXIT_PERCENT))
+      {
+        retryCounter++;
+      }
+      else
+      {
+        retryCounter = 0;
+        focusPuzzle = false;
+      }
+      
+      streakCounter = 0;
+    }
+    else // successful interaction!
+    {
+      if (streakCounter > 0 && random(0, 100) < FOCUS_SUCCESS_EXIT_PERCENT)  // subsequent success -- stop repeat this % of the time
+      {
+        focusPuzzle = false;
+      } 
+      else
+      {
+        focusPuzzle = true;
+      }
+      streakCounter++;
       retryCounter = 0;
+    }
   }
 
   // adjust level according to performance
