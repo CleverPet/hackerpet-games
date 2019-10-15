@@ -719,7 +719,7 @@ bool playSymon(){
 
     if(foodtreatPresented)
     {
-      /*
+      
       for (i_i = 0; i_i < (streakCounter % (STREAK_FOOD_MAX + 1)); i_i++)
       {
         Log.info("Dispensing extra food to dish");
@@ -732,7 +732,7 @@ bool playSymon(){
         yield_wait_for((hub.IsReady()
                 && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
       }
-      */
+      
       Log.info("Dispensing foodtreat");
 
       hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
