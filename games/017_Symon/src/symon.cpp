@@ -581,6 +581,7 @@ bool playSymon(){
       {
           // detect any buttons currently pressed
           pressed[sequence_pos] = hub.AnyButtonPressed();
+          /*
           // use yields statements any time the hub is pausing or waiting
           if ( hintIntensityMultipl == 0 && ((millis() - timestampBefore) > HINT_WAIT * (timedHintCount + 1) ))
           {
@@ -593,7 +594,8 @@ bool playSymon(){
               SLEW);
             yield_sleep_ms(60, false);
             hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
-          }
+          }*/
+
           yield(false);
       }
       while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
