@@ -531,9 +531,19 @@ bool playSymon(){
       yield_wait_for((!hub.AnyButtonPressed()), false);
 
       // turn on response hint, see game logic table for intensity calculation
-      if (currentLevel < 20){
-       hintIntensityMultipl = HINT_INTENSITY_MULTIPL_1[currentLevel % 10];
-      } else {
+      if (currentLevel < 20)
+      {
+        if (HINT_INTENSITY_MULTIPL_1[currentLevel % 10] > 0)
+        {
+          hintIntensityMultipl = random(0, HINT_INTENSITY_MULTIPL_1[currentLevel % 10]);
+        }
+        else
+        {
+          hintIntensityMultipl = 0;
+        }
+      }
+      else
+      {
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL_2[currentLevel % 10];
       }
 
