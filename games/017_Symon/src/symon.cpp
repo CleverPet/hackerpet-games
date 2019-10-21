@@ -47,10 +47,10 @@ const char PlayerName[] = "Pet, Clever";
  */
 int currentLevel = 10; // LEVELS START AT 10
 // Performance calculations
-const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
-const int ENOUGH_SUCCESSES=    4;   // if successes >= ENOUGH_SUCCESSES level-up
-const int TOO_MANY_MISSES=     7;   // if num misses >= TOO_MANY_MISSES level-down
-const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
+const int HISTORY_LENGTH =    8;   // Number of past interactions to look at for performance
+const int ENOUGH_SUCCESSES =  7;   // if successes >= ENOUGH_SUCCESSES level-up
+const int TOO_MANY_MISSES =   5;   // if num misses >= TOO_MANY_MISSES level-down
+const int REINFORCE_RATIO =   100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
 // LED colors and intensities
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
@@ -72,7 +72,7 @@ const int TARGET_RESPONSE_MISS_INTENSITY_RED = 99; // [0-99]
 const int TARGET_RESPONSE_MISS_INTENSITY_GREEN = 99; // [0-99]
 const int TARGET_RESPONSE_MISS_INTENSITY_BLUE = 0; // [0-99]
 const int HINT_INTENSITY_MULTIPL_1[] = {100,30,5,0,0,0,0,0,0,0}; // for level 10-19
-const int HINT_INTENSITY_MULTIPL_2[] = {100,30,25,20,15,10,7,5,2,0}; // for level 20 on
+const int HINT_INTENSITY_MULTIPL_2[] = {0,0,0,0,0,0,0,0,0,0}; // for level 20 on
 // Volume
 const int AUDIO_VOLUME = 60; //[0-99]
 // Delays and wait times
@@ -80,11 +80,11 @@ const unsigned long FOODTREAT_DURATION = 4000; // (ms) how long to present foodt
 const unsigned long TIMEOUT_INTERACTIONS_MS = 10000; // (ms) how long to wait until restarting the
                                                     // interaction
 const unsigned long INTER_GAME_DELAY = 5000; // timeout inbetween games on miss
-const int RESPONSE_PHASE_WAIT_TIME[] = {250,250,250,250,500,1000,1500,2000,2500,3000}; // for all levels
+const int RESPONSE_PHASE_WAIT_TIME[] = {250,250,250,250,500,750,1000,1500,1750,2250}; // for all levels
 // Chance calculations
-const int END_ON_MISS_CHANCE_1[] = {100,0,25,50,100,100,100,100,100,100}; // for level 10 - 19
-const int END_ON_MISS_CHANCE_2[] = {0,75,80,85,90,95,100,100,100,100}; // for level 20 on and seq_pos == seq_lenght-2
-const int END_ON_MISS_CHANCE_3[] = {0,45,50,55,60,65,70,75,85,100}; // for level 20 on and  seq_pos == seq_length-1
+const int END_ON_MISS_CHANCE_1[] = {100,0,20,30,30,40,60,80,100,100}; // for level 10 - 19
+const int END_ON_MISS_CHANCE_2[] = {0,20,30,40,60,60,60,70,90,100}; // for level 20 on and seq_pos == seq_lenght-2
+const int END_ON_MISS_CHANCE_3[] = {0,10,20,30,40,50,60,70,90,100}; // for level 20 on and  seq_pos == seq_length-1
 /**
  * Global variables and constants
  * ------------------------------
