@@ -1,7 +1,10 @@
 /**
   Symon
-  =========================
+  =====
+  
+  CleverPet's take on the classic Simon game!
 
+  Game description: https://docs.google.com/spreadsheets/d/1HkkUL4kADE9z8QU52XV4l3LqH5V2IuMB-91EWtAIcko/edit?usp=sharing
 
   Authors: CleverPet Inc.
            Jelmer Tiete <jelmer@tiete.be>
