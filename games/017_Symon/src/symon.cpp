@@ -851,6 +851,14 @@ bool playSymon(){
     addResultToPerformanceHistory(accurate);
     }
 
+    if (presentMisses > 0) 
+    {
+      focusPuzzle = true;
+      // immediately retry
+      // no increment of retryCounter, as it wasn't really a "wrong" guess
+    }
+    else 
+    {
     // always do a retry when we the player got it wrong else reset it
     prevRetryCounter = retryCounter;
     if(!accurate)
@@ -882,6 +890,7 @@ bool playSymon(){
       streakCounter++;
       retryCounter = 0;
     }
+  }
   }
 
   // adjust level according to performance
