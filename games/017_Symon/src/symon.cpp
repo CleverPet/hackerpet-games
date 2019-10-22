@@ -871,7 +871,7 @@ bool playSymon(){
     }
     else // successful interaction!
     {
-      if (streakCounter > 0 && random(0, 100) < (FOCUS_SUCCESS_EXIT_PERCENT * min(1, ((currentLevel % 10) - 5) ))  || streakCounter > 7)  // stop repeating more often as level increases above 5
+      if (streakCounter > 0 && random(0, 100) < (FOCUS_SUCCESS_EXIT_PERCENT * max(1, ((currentLevel % 10) - 5) ))  || streakCounter > 7)  // stop repeating more often as level increases above 5
       {
         focusPuzzle = false;
       } 
