@@ -124,7 +124,7 @@ const unsigned long HINT_WAIT = 9000;
 const unsigned int DEFAULT_CORRECTION_EXIT_PERCENT = 20;
 const unsigned int FOCUS_CORRECTION_EXIT_PERCENT = 10;
 const unsigned int FOCUS_SUCCESS_EXIT_PERCENT = 15;
-const unsigned int STREAK_FOOD_MAX = 2;
+const unsigned int STREAK_FOOD_MAX = 3;
 
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
@@ -724,6 +724,13 @@ bool playSymon(){
     hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
     // give the Hub a moment to finish playing the reward sound
     yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+    
+    for (i_i = 0; i_i < streakCounter; i_i++)
+    {
+      hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
+      // give the Hub a moment to finish playing the reward sound
+      yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+    }
 
     foodtreatPresented = (((int)(rand() % 100)) <= REINFORCE_RATIO);
 
@@ -732,15 +739,15 @@ bool playSymon(){
       
       for (i_i = 0; i_i < (streakCounter % (STREAK_FOOD_MAX + 1)); i_i++)
       {
-        Log.info("Dispensing extra food to dish");
-        hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
-        // give the Hub a moment to finish playing the reward sound
-        yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+        if (random(0,100) < 33) 
+        {
+          Log.info("Dispensing extra food to dish");
+          hub.ResetFoodMachine();
+          yield_sleep_ms(400, false);
+          yield_wait_for((hub.IsReady()
+                  && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
 
-        hub.ResetFoodMachine();
-        yield_sleep_ms(400, false);
-        yield_wait_for((hub.IsReady()
-                && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
+        }
       }
       
       Log.info("Dispensing foodtreat");
