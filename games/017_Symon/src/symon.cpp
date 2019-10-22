@@ -846,7 +846,10 @@ bool playSymon(){
   // keep track of performance and retry games
   if(!timeout){
 
+    if (currentLevel > 12 && responseMisses > 0)
+    {
     addResultToPerformanceHistory(accurate);
+    }
 
     // always do a retry when we the player got it wrong else reset it
     prevRetryCounter = retryCounter;
