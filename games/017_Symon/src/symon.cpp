@@ -300,7 +300,7 @@ bool playSymon(){
   static int responseMisses = 0; // logging error touches during response phase
   static bool accurate = false;
   static bool timeout = false;
-  static bool foodtreatPresented = false; // store if foodtreat was presented
+  static int foodtreatPresented = 0; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static int retryCounter = 0; // do not re-initialize
   static int prevRetryCounter = 0; // do not re-initialize
@@ -336,7 +336,7 @@ bool playSymon(){
   accurate = false;
   timeout = false;
   hintIntensityMultipl = 0;
-  foodtreatPresented = false; // store if foodtreat was presented in last interaction
+  foodtreatPresented = 0; // store if foodtreat was presented in last interaction
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   dodoSoundPlayed = false;
   touchLogIndex = 0;
@@ -742,6 +742,7 @@ bool playSymon(){
         if (random(0,100) < 33)  // TODO make constant
         {
           Log.info("Dispensing extra food to dish");
+          foodtreatPresented++;
           hub.ResetFoodMachine();
           yield_sleep_ms(400, false);
           yield_wait_for((hub.IsReady()
