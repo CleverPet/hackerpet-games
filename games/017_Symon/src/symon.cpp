@@ -775,7 +775,7 @@ bool playSymon(){
         Log.info("Treat was not eaten");
         foodtreatWasEaten = false;
         hub.ResetFoodMachine();
-        yield_sleep_ms(300, false);
+        yield_sleep_ms(500, false);
         yield_wait_for((hub.IsReady()
           && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
       }
