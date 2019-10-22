@@ -70,7 +70,7 @@ const char PlayerName[] = "Salk";
  * These constants (capitalized) and variables (camelCase) define the
  * gameplay
  */
-int currentLevel = 13; // LEVELS START AT 10
+int currentLevel = 14; // LEVELS START AT 10
 const int MIN_LEVEL =      13;   // Number of past interactions to look at for performance
 const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
 const int ENOUGH_SUCCESSES=    7;   // if successes >= ENOUGH_SUCCESSES level-up
