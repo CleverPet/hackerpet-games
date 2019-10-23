@@ -1,12 +1,12 @@
 # hackerpet games repository
 
 This is a compilation of games for [hackerpet][hackerpet_repo]-modified
-CleverPet Hubs. You'll find here games to try out with your dog or cat. 
-Feel free to suggest modifications to games or even add new games here that 
+CleverPet Hubs. You'll find here games to try out with your dog or cat.
+Feel free to suggest modifications to games or even add new games here that
 you've made yourself!
 
 ### Games to Teach your Player (dog, cat, pig, ...) to Use CleverPet
-   CleverPet developed this sequence of games to teach players to use the CleverPet Hub's 
+   CleverPet developed this sequence of games to teach players to use the CleverPet Hub's
    touch interface, and are best played in the order below. When the player becomes proficient
    at the current challenge, switch them to the next one!
 
@@ -27,8 +27,8 @@ you've made yourself!
 
 
 ### Community Contributed Games
-   Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
-   request to this repository. We'll commit all appropriate games. 
+   Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull
+   request to this repository. We'll commit all appropriate games.
 
    |||&nbsp;&nbsp;&nbsp;&nbsp;|||
    |:---|:---|:-:|:---|---|
@@ -38,15 +38,16 @@ you've made yourself!
    | 15. | [**WhackAMole**](./games/015_WhackAMole) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install WhackAMole](./docs/images/install.png)][WhackAMole]| This is a more "active" game for the Hub that challenges your player's "paw-eye" coordination. | ![]() |
    | 16. | [**ControlPet**](./games/016_ControlPet) <br><sup>Michael Gschwandtner&nbsp;<mgschwan -at- gmail.com></sup> | [![Install ControlPet](./docs/images/install.png)][ControlPet] | Remote control app for the hub. Control the hub either via a webinterface or from a python program. Enables rapid prototyping of new ideas and guided learning of the hub | ![]() |
    | 17. | [**Symon**](./games/017_Symon) <br><sup>Jelmer&nbsp;Tiete&nbsp;<jelmer@tiete.be></sup> | [![Install Symon](./docs/images/install.png)][Symon] | CleverPet's take on the classic Simon game! | ![]() |
+   | 18. | [**OddOneOutRepeated**](./games/018_OddOneOutRepeated) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> | This game is for testing your pet's ability distinguishing colors. | ![]() |
 
 --------
 
 ## How to install games
 
-Once you've modified your Hub to work with hackerpet, the easiest way is to install a game is to just click the install icon (![install icon](./docs/images/install.png))! You'll then sign in to Particle and can choose which Photon you'd like to put the game on to. 
+Once you've modified your Hub to work with hackerpet, the easiest way is to install a game is to just click the install icon (![install icon](./docs/images/install.png))! You'll then sign in to Particle and can choose which Photon you'd like to put the game on to.
 
 Alternatively, you can clone or download this repository, and then install the game to your Hub using one of:
-   1. [particle-cli][particle_cli], 
+   1. [particle-cli][particle_cli],
    2. [Particle IDE (DEV)][particle_dev] (slightly easier to use), or
    3. [Particle Workbench][particle_vsc] (more sophisticated) for Visual Studio Code
 
@@ -55,19 +56,19 @@ Alternatively, you can clone or download this repository, and then install the g
 You can add your own game to this list by simply submitting a pull request (PR) in
 this repository.
 A few guidelines for assuring a quick PR approval:
-* Please make sure you've tested the game and that you've succeeded at training a player to play it! 
+* Please make sure you've tested the game and that you've succeeded at training a player to play it!
 * Please make sure that the game/app isn't a duplicate of others already here
 * In your PR, make sure you update both this file and [games.json][games.json]
 * Please submit one game per PR :)
 * Ensure you've already completed the [CleverPet Individual
-Contributor License Agreement (CLA)][CLA], which is based on the Google CLA. 
+Contributor License Agreement (CLA)][CLA], which is based on the Google CLA.
 
-If you want to also include your source in this repository, you can make a new folder 
+If you want to also include your source in this repository, you can make a new folder
 under the [games folder][games_folder] named after your game. The directory structure of
 your game should follow the standard Particle project structure. You can see an
 example of the structure in the [`hello-world`][hello_world] game folder.
 
-## What's the CleverPet Hub? What's hackerpet? 
+## What's the CleverPet Hub? What's hackerpet?
 
 The [CleverPet Hub][cleverpet.io] is a programmable device that lets you
 automatically train and interact with other species. It's kind of like a "game
@@ -75,9 +76,9 @@ console for dogs and cats".
 
 <p align="center"> <img width="460" src="docs/images/hub1.png"> </p>
 
-The Hub is built on the [Particle][particle.io] platform, and with **hackerpet** 
-we've open-sourced CleverPet's player-training software, which means that the full 
-suite of tools Particle has built can be used to control the CleverPet Hub. 
+The Hub is built on the [Particle][particle.io] platform, and with **hackerpet**
+we've open-sourced CleverPet's player-training software, which means that the full
+suite of tools Particle has built can be used to control the CleverPet Hub.
 
 You can find the main Particle library to control the CleverPet Hub in the
 [hackerpet repository][hackerpet_repo] or on the
