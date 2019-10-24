@@ -784,9 +784,12 @@ bool playSymon(){
     }
   } else {
     if (!timeout) {
+      if (random(0,100) < 30) 
+      {
       hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
       // give the Hub a moment to finish playing the sound
       yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
+      }
       foodtreatWasEaten = false;
     }
   }
