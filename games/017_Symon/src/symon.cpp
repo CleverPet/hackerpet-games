@@ -114,7 +114,7 @@ const int END_ON_MISS_CHANCE_3[] = {0,10,20,30,40,50,60,70,90,100}; // for level
  * Global variables and constants
  * ------------------------------
  */
-const unsigned long SOUND_AUDIO_POSITIVE_DELAY = 350; // (ms) delay for reward sound
+const unsigned long SOUND_AUDIO_POSITIVE_DELAY = 150; // (ms) delay for reward sound
 const unsigned long SOUND_AUDIO_NEGATIVE_DELAY = 350;
 const unsigned long SOUND_TOUCHPAD_DELAY = 300; // (ms) delay for touchpad sound
 const unsigned long SOUND_DO_DELAY = 150; // (ms) delay for reward sound
