@@ -125,6 +125,7 @@ const unsigned int DEFAULT_CORRECTION_EXIT_PERCENT = 20;
 const unsigned int FOCUS_CORRECTION_EXIT_PERCENT = 10;
 const unsigned int FOCUS_SUCCESS_EXIT_PERCENT = 20;
 const unsigned int STREAK_FOOD_MAX = 3;
+const unsigned int STREAK_BONUS_PERCENT = 15;
 
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
@@ -741,9 +742,9 @@ bool playSymon(){
     if(foodtreatPresented)
     {
       
-      for (i_i = 0; i_i < (streakCounter % (STREAK_FOOD_MAX + 1)); i_i++)
+      for (i_i = 0; i_i < (streakCounter); i_i++)
       {
-        if (random(0,100) < 33)  // TODO make constant
+        if (random(0,100) < STREAK_BONUS_PERCENT)  
         {
           Log.info("Dispensing extra food to dish");
           foodtreatPresented++;
@@ -751,6 +752,7 @@ bool playSymon(){
           yield_sleep_ms(400, false);
           yield_wait_for((hub.IsReady()
                   && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
+          break;
 
         }
       }
