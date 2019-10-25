@@ -730,14 +730,15 @@ bool playSymon(){
       yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
     }
 
-    foodtreatPresented = (int)(((int)(rand() % 100)) <= (REINFORCE_RATIO + streakCounter * 10));
+    // make sure to reward an extended effort TODO: change to constant
+    foodtreatPresented = retryCounter > 3 || (int)(((int)(rand() % 100)) <= (REINFORCE_RATIO + streakCounter * 10));
 
     if(foodtreatPresented)
     {
       
       for (i_i = 0; i_i < (streakCounter); i_i++)
       {
-        if (streakCounter > 4 && random(0,100) < STREAK_BONUS_PERCENT)  
+        if (retryCounter > 6 || streakCounter > 4 && random(0,100) < STREAK_BONUS_PERCENT)  
         {
           Log.info("Dispensing extra food to dish");
           foodtreatPresented++;
