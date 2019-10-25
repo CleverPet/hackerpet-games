@@ -744,7 +744,7 @@ bool playSymon(){
       
       for (i_i = 0; i_i < (streakCounter); i_i++)
       {
-        if (random(0,100) < STREAK_BONUS_PERCENT)  
+        if (streakCounter > 4 && random(0,100) < STREAK_BONUS_PERCENT)  
         {
           Log.info("Dispensing extra food to dish");
           foodtreatPresented++;
