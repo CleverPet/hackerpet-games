@@ -403,13 +403,6 @@ bool playSymon(){
     retryCounter = 0; // seems redundant
   } else { // same game
     Log.info("Doing a retry game");
-    if (retryCounter == 4)
-    {
-        hub.ResetFoodMachine();
-        yield_sleep_ms(400, false);
-        yield_wait_for((hub.IsReady()
-                && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
-    }
   }
 
   Log.info("Current level: %u, sequence length: %u, successes: %u, misses: %u",
