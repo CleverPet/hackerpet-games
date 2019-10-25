@@ -125,7 +125,7 @@ const unsigned int DEFAULT_CORRECTION_EXIT_PERCENT = 20;
 const unsigned int FOCUS_CORRECTION_EXIT_PERCENT = 10;
 const unsigned int FOCUS_SUCCESS_EXIT_PERCENT = 20;
 const unsigned int STREAK_FOOD_MAX = 3;
-const unsigned int STREAK_BONUS_PERCENT = 15;
+const unsigned int STREAK_BONUS_PERCENT = 10;
 
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
