@@ -12,7 +12,7 @@ One way of thinking about this game is as though it's "Monkey see, monkey do":
 2. **See**: A round begins with a single "knock" sound, followed by one or more touchpads lighting up in a sequence, along with the touchpad's associated sound.
 3. **Do**: After the sequence has completed, a "double knock" sound will indicate that it's the player's turn to repeat it.
 
-After the game has started, the three illuminated touchpads will only appear if the player doesn't respond. This keeps the game active.
+After the game has started, the three illuminated pads of Step 1 will only appear if the player doesn't respond. Otherwise, the game will continue immediately after the player's response, whether incorrect or correct. 
 
 ## Differences from MB Simon 
 
