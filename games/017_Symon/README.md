@@ -30,11 +30,11 @@ Levels 20-29 involve your player remembering sequences that involve two lights.
 
 Levels 30-39 require remembering a sequence of three lights, and so. In general, it's possible to tell how long a sequence is that a player is working on by looking at the digit in the 10s place in the level number. Thus, as the levels go up, the game becomes more challenging. 
 
-While working on a given sequence length, x0 through x9 change the difficulty of the game to help train your player. 
-
-Three aspects of the game get modified: 
+While working on a given sequence length, x0 through x9 change the difficulty of the game to help train your player. Two aspects of the game get modified to improve the player's training: 
 1. "Exit on Miss probability" -- as the game shifts from x0 to x9, the game becomes more "strict", tolerating fewer incorrect touches as the player guesses which touchpad is the right one. We describe this as an increased probability of exiting the round when a player gets a touch wrong. 
 2. "Delay to See phase" -- as the game shifts from x0 to x9, the maximum possible delay before the "see" phase begins increases, requiring the player to wait longer. The shortest possible delay is 50 ms, with the longest possible one being 2300 ms. 
+
+Details on how the game advances and becomes more difficult can be found on the [Symon Game Description spreadsheet](https://docs.google.com/spreadsheets/d/1HkkUL4kADE9z8QU52XV4l3LqH5V2IuMB-91EWtAIcko/edit#gid=0).
 <!-- Not implemented yet 
 3. "Game switch probability" -- x0 through x5 involve practicing and practicing on the same sequence. In x6 through x9, the game will switch more and more often between sequences.
 -->
