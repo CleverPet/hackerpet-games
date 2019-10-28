@@ -2,7 +2,7 @@
 
 Symon is a version of the Simon memory game by Milton-Bradley, but for dogs, cats, pigs, chimps, and any other animal that can be taught to play it.
 
-![Original Milton-Bradley Simon game](https://upload.wikimedia.org/wikipedia/commons/c/cd/Simon_Electronic_Game.jpg "Simon game")
+![Original Milton-Bradley Simon game](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Simon_Electronic_Game.jpg/128px-Simon_Electronic_Game.jpg "Simon game")
 
 ## Game basics
 
