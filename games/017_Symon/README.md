@@ -10,7 +10,7 @@ One way of thinking about this game is as though it's "Monkey see, monkey do":
 
 1. To begin with, it starts with all three touchpads illuminated. The player can touch any of them to start the game. 
 2. **See**: A round begins with a single "knock" sound, followed by one or more touchpads lighting up in a sequence, along with the touchpad's associated sound.
-3. **Do**: After the sequence has completed, a "double knock" sound will indicate that it's the player's turn to repeat =it.
+3. **Do**: After the sequence has completed, a "double knock" sound will indicate that it's the player's turn to repeat it.
 
 After the game has started, the three illuminated touchpads will only appear if the player doesn't respond. This keeps the game active.
 
