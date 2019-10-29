@@ -10,7 +10,7 @@ you've made yourself!
    touch interface, and are best played in the order below. When the player becomes proficient
    at the current challenge, switch them to the next one!
 
-   |||&nbsp;&nbsp;&nbsp;&nbsp;|||
+   |||Install|||
    |:---|:---|:-:|:---|---|
    | 0.  | [**EatingTheFood**](./games/000_EatingTheFood) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> |[![install EatingTheFood](./docs/images/install.png)][EatingTheFood]| Help your player get comfortable with the Hub’s sounds and movements. | ![](./games/000_EatingTheFood/EatingTheFood.gif) |
    | 1.  | [**ExploringTheTouchpads**](./games/001_ExploringTheTouchpads) <br><sup>CleverPet&nbsp;<info@clever.pet></sup> |[![install ExploringTheTouchpads](./docs/images/install.png)][ExploringTheTouchpads]| A foodtreat is offered, but the player will also earn a reward when they press a touchpad.  | ![](./games/001_ExploringTheTouchpads/ExploringTheTouchpads.gif) |
@@ -30,7 +30,7 @@ you've made yourself!
    Anyone can make a game for the Hub! If you'd like to add yours below, just create a pull 
    request to this repository. We'll commit all appropriate games. 
 
-   |||&nbsp;&nbsp;&nbsp;&nbsp;|||
+   |||Install|||
    |:---|:---|:-:|:---|---|
    | 12. | [**hello-animal**](./games/012_hello-animal) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install hello-animal](./docs/images/install.png)][hello-animal]| An introduction to the basics of building hackerpet interactions. | ![]() |
    | 13. | [**OneTwoThreeButtonGame**](./games/013_OneTwoThreeButtonGame) <br><sup>CleverPet&nbsp;<info@clever.pet></sup>|[![Install OneTwoThreeButtonGame](./docs/images/install.png)][OneTwoThreeButtonGame]| This game can be useful during initial training of a player to use the Hub. | ![]() |
