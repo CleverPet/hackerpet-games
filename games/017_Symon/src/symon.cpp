@@ -780,18 +780,20 @@ bool playSymon(){
     }
   } else {
     if (!timeout) {
-      if (random(0,100) < 15) 
+      if (retryCounter < 3 || random(0,100) > (retryCounter * 10)) // very gentle negative feedback most of the time
       {
-      hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
-      yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
-      }
-      else
-      {
-        // lighter negative feedback
         hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME/6);
         yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY/2, false);
       }
-      // give the Hub a moment to finish playing the sound
+      else // less gentle negative feedback
+      {
+        hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
+        yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
+      }
+
+      // slow down the game if player is getting it wrong to discourage guessing
+      yield_sleep_ms(1500 * retryCounter, false);
+
       foodtreatWasEaten = false;
     }
   }
