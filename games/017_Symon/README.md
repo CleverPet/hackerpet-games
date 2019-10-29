@@ -1,4 +1,4 @@
-# symon
+# Symon
 
 Symon is a version of the [Simon memory game by Milton-Bradley](https://en.wikipedia.org/wiki/Simon_(game)), but for dogs, cats, pigs, chimps, and any other animal that can be taught to play it.
 
@@ -6,7 +6,7 @@ Symon is a version of the [Simon memory game by Milton-Bradley](https://en.wikip
 
 ## Game basics
 
-One way of thinking about this game is as though it's "Monkey see, monkey do":
+One way of thinking about this game is as though it's "[Monkey see, monkey do](https://en.wikipedia.org/wiki/Monkey_see,_monkey_do)":
 
 1. To begin with, it starts with all three touchpads illuminated. The player can touch any of them to start the game. 
 2. **See**: A round begins with a single "knock" sound, followed by one or more touchpads lighting up in a sequence, along with the touchpad's associated sound.
