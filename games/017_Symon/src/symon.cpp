@@ -792,7 +792,8 @@ bool playSymon(){
       }
 
       // slow down the game if player is getting it wrong to discourage guessing
-      yield_sleep_ms(1500 * retryCounter, false);
+      if (retryCounter > 1)
+        yield_sleep_ms(1200 * min((retryCounter-1)*(retryCounter-1), 100), false);
 
       foodtreatWasEaten = false;
     }
