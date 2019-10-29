@@ -790,11 +790,6 @@ bool playSymon(){
         hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
         yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
       }
-
-      // slow down the game if player is getting it wrong to discourage guessing
-      if (retryCounter > 1)
-        yield_sleep_ms(1200 * min((retryCounter-1)*(retryCounter-1), 100), false);
-
       foodtreatWasEaten = false;
     }
   }
@@ -923,6 +918,11 @@ bool playSymon(){
   }
 
   hub.SetDIResetLock(false);  // allow DI board to reset if needed between interactions
+
+  // slow down the game if player is getting it wrong to discourage guessing
+  if (prevRetryCounter > 1)
+    yield_sleep_ms(1200 * min((retryCounter-1)*(retryCounter-1), 100), false);
+
   yield_finish();
   return true;
 }
@@ -930,7 +930,7 @@ bool playSymon(){
 
 /**
  * Setup function
- * --------------
+ * -------------
  */
 void setup() {
   hub.Initialize(__FILE__);
