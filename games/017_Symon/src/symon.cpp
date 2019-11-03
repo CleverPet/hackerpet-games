@@ -849,9 +849,13 @@ bool playSymon(){
   // keep track of performance and retry games
   if(!timeout){
 
-    if (currentLevel > 12 && responseMisses > 0)
+    if (currentLevel > 12 && presentMisses == 0)
     {
-    addResultToPerformanceHistory(accurate);
+      addResultToPerformanceHistory(accurate);
+    } 
+    else if (currentLevel <= 12)
+    {
+      addResultToPerformanceHistory(accurate);
     }
 
     if (presentMisses > 0) 
