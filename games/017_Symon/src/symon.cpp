@@ -300,8 +300,7 @@ bool playSymon(){
   static int presentMisses = 0; // logging error touches during present phase
   static int responseMisses = 0; // logging error touches during response phase
   static bool accurate = false;
-  static bool timeout = true;
-  static bool prevTimeout = true;
+  static bool timeout = true; // do not re-initialize
   static int foodtreatPresented = 0; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static int retryCounter = 0; // do not re-initialize
@@ -336,8 +335,6 @@ bool playSymon(){
     touchLogTimes[i]=0;
   }
   accurate = false;
-  prevTimeout = timeout;
-  timeout = false;
   hintIntensityMultipl = 0;
   foodtreatPresented = 0; // store if foodtreat was presented in last interaction
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
@@ -422,35 +419,37 @@ bool playSymon(){
   // turn off the cue light
   hub.SetLights(hub.LIGHT_CUE,0,0,0);
 
-  if (prevTimeout) 
+  if (timeout)
   {
-  // turn on the touchpad lights at start intensity
-  hub.SetLightsRGB(
-    hub.LIGHT_BTNS,
-    START_INTENSITY_RED,
-    START_INTENSITY_GREEN,
-    START_INTENSITY_BLUE,
-    SLEW);
+    // turn on the touchpad lights at start intensity
+    hub.SetLightsRGB(
+      hub.LIGHT_BTNS,
+      START_INTENSITY_RED,
+      START_INTENSITY_GREEN,
+      START_INTENSITY_BLUE,
+      SLEW);
 
-  // wait until: a button is currently pressed
-  yield_wait_for(hub.AnyButtonPressed(), false);
-  }
+    // wait until: a button is currently pressed
+    yield_wait_for(hub.AnyButtonPressed(), false);
+    if(hub.AnyButtonPressed()){
+      touchLog[touchLogIndex] = hub.AnyButtonPressed();
+      touchLogTimes[touchLogIndex] = 0;
+      touchLogIndex++;
+      // Record start timestamp for performance logging
+      timestampBefore = millis();
+    }
 
-    touchLog[touchLogIndex] = hub.AnyButtonPressed();
-    touchLogTimes[touchLogIndex] = 0;
-    touchLogIndex++;
-    // Record start timestamp for performance logging
+    // turn off all touchpad lights
+    hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
+
+    // slight delay to prevent double presses to show up as a miss
+    yield_sleep_ms(100, false);
+
+    // wait until: no button is currently pressed
+    yield_wait_for((!hub.AnyButtonPressed()), false);
+  } else {
     timestampBefore = millis();
-
-  // turn off all touchpad lights
-  hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
-
-  // slight delay to prevent double presses to show up as a miss
-  yield_sleep_ms(100, false);
-
-  // wait until: no button is currently pressed
-  yield_wait_for((!hub.AnyButtonPressed()), false);
-
+  }
 
 //------------------------------------------------------------------------------
     // SEE PHASE
