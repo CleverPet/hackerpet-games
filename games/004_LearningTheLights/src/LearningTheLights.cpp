@@ -34,7 +34,7 @@ const char PlayerName[] = "Pet, Clever";
  * Challenge settings
  * -------------
  *
- * These constants (capitalized CamelCase) and variables (camelCase) define the
+ * These constants (capitalized SNAKE_CASE) and variables (camelCase) define the
  * gameplay
  */
 int currentLevel = 1;          // current and starting level
