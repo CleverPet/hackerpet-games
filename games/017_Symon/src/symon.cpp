@@ -71,18 +71,18 @@ const char PlayerName[] = "Pet, Clever";
  * gameplay
  */
 int currentLevel = 10; // LEVELS START AT 10
-// Performance calculations
-const int HISTORY_LENGTH =    8;   // Number of past interactions to look at for performance
-const int ENOUGH_SUCCESSES =  7;   // if successes >= ENOUGH_SUCCESSES level-up
-const int TOO_MANY_MISSES =   5;   // if num misses >= TOO_MANY_MISSES level-down
-const int REINFORCE_RATIO =   100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
+const int MIN_LEVEL =      10;   // Number of past interactions to look at for performance
+const int HISTORY_LENGTH=      7;   // Number of past interactions to look at for performance
+const int ENOUGH_SUCCESSES=    6;   // if successes >= ENOUGH_SUCCESSES level-up
+const int TOO_MANY_MISSES=     7;   // if num misses >= TOO_MANY_MISSES level-down
+const int REINFORCE_RATIO =      100; // the foodtreat reinforcement ratio [0-100] 100:always foodtreat
 // LED colors and intensities
 const int CUE_LIGHT_PRESENT_INTENSITY_RED = 99; // [0-99] // cue / status light is yellow in present phase
 const int CUE_LIGHT_PRESENT_INTENSITY_GREEN = 99; // [0-99]
 const int CUE_LIGHT_PRESENT_INTENSITY_BLUE = 0; // [0-99]
-const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 5; // [0-99] // cue / status light is white in response phase
-const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 5; // [0-99]
-const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 5; // [0-99]
+const int CUE_LIGHT_RESPONSE_INTENSITY_RED = 99; // [0-99] // cue / status light is white in response phase
+const int CUE_LIGHT_RESPONSE_INTENSITY_GREEN = 99; // [0-99]
+const int CUE_LIGHT_RESPONSE_INTENSITY_BLUE = 99; // [0-99]
 const int SLEW = 0; // slew for all lights [0-99]
 const int START_INTENSITY_RED = 40; // [0-99]
 const int START_INTENSITY_GREEN = 40; // [0-99]
@@ -114,10 +114,18 @@ const int END_ON_MISS_CHANCE_3[] = {0,10,20,30,40,50,60,70,90,100}; // for level
  * Global variables and constants
  * ------------------------------
  */
-const unsigned long SOUND_AUDIO_POSITIVE_DELAY = 350; // (ms) delay for reward sound
+const unsigned long SOUND_AUDIO_POSITIVE_DELAY = 150; // (ms) delay for reward sound
 const unsigned long SOUND_AUDIO_NEGATIVE_DELAY = 350;
 const unsigned long SOUND_TOUCHPAD_DELAY = 300; // (ms) delay for touchpad sound
 const unsigned long SOUND_DO_DELAY = 150; // (ms) delay for reward sound
+
+const unsigned long HINT_WAIT = 9000;
+
+const unsigned int DEFAULT_CORRECTION_EXIT_PERCENT = 20;
+const unsigned int FOCUS_CORRECTION_EXIT_PERCENT = 10;
+const unsigned int FOCUS_SUCCESS_EXIT_PERCENT = 20;
+const unsigned int STREAK_FOOD_MAX = 3;
+const unsigned int STREAK_BONUS_PERCENT = 10;
 
 bool performance[HISTORY_LENGTH] = {0}; // store the progress in this challenge
 unsigned char perfPos = 0; // to keep our position in the performance array
@@ -135,6 +143,21 @@ HubInterface hub;
 
 // enables simultaneous execution of application and system thread
 SYSTEM_THREAD(ENABLED);
+
+int giveFood(String command)
+{
+    Log.info("Received giveFood.");
+    int foodtreat_duration = 5000;
+    if (command.length() > 0)
+    {
+        foodtreat_duration = command.toInt();
+    }
+
+    Log.info("Foodtreat present duration is %d", foodtreat_duration);
+
+    hub.PresentAndCheckFoodtreat(foodtreat_duration);
+    return 1;
+}
 
 /**
  * Helper functions
@@ -271,16 +294,22 @@ bool playSymon(){
   static unsigned char touchpad_sequence[SEQUENCE_LENGTHMAX]={};
   static unsigned char pressed[SEQUENCE_LENGTHMAX] = {};
   static unsigned char touchLog[LOG_LENGTH_MAX] = {};  // could end up longer than sequence length, should use vector
+  static unsigned char tmpPressed = 0;
   static int sequenceLength = 0; // sequence length (gets calculated)
   static int touchLogIndex = 0;
   static int presentMisses = 0; // logging error touches during present phase
   static int responseMisses = 0; // logging error touches during response phase
   static bool accurate = false;
-  static bool timeout = false;
-  static bool foodtreatPresented = false; // store if foodtreat was presented
+  static bool timeout = true; // do not re-initialize
+  static int foodtreatPresented = 0; // store if foodtreat was presented
   static bool foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   static int retryCounter = 0; // do not re-initialize
+  static int prevRetryCounter = 0; // do not re-initialize
+  static int streakCounter = 0; // do not re-initialize
+  static bool focusPuzzle = false; // do not re-initialize
   static bool dodoSoundPlayed = false;
+  static int timedHintCount = 0; // to keep the size of the number of perf numbers to consider
+  static int i_i = 0; // for iterating over yields
   // Static variable and constants are only initialized once, and need to be re-initialized
   // on subsequent calls
   sequenceLength = 0;
@@ -293,6 +322,9 @@ bool playSymon(){
   touchpads[1]=hub.BUTTON_MIDDLE;
   touchpads[2]=hub.BUTTON_RIGHT;
   sequence_pos = 0;
+  timedHintCount = 0;
+  tmpPressed = 0;
+
   // reset pressed touchpads
   fill(pressed, pressed+SEQUENCE_LENGTHMAX, 0);
   // fill(respTimes, respTimes+ sizeof( respTimes ), 0); //DONT DO THIS
@@ -303,9 +335,8 @@ bool playSymon(){
     touchLogTimes[i]=0;
   }
   accurate = false;
-  timeout = false;
   hintIntensityMultipl = 0;
-  foodtreatPresented = false; // store if foodtreat was presented in last interaction
+  foodtreatPresented = 0; // store if foodtreat was presented in last interaction
   foodtreatWasEaten = false; // store if foodtreat was eaten in last interaction
   dodoSoundPlayed = false;
   touchLogIndex = 0;
@@ -332,15 +363,42 @@ bool playSymon(){
   //calculate sequenceLength
   sequenceLength = (currentLevel/10); // see game-logic chart
 
-  if(!retryCounter){
+  if(!focusPuzzle) // new game
+  {
+
+    /* 
+    If player gets it wrong first time around, retry with 20% chance of exit 
+
+    If player gets it right first time around, show the player the same one again (focus mode)
+
+      If they then get it wrong on a subsequent try, retry with 10% chance of exit
+
+      If they then get it right on a subsequent try, 
+        if they got the previous x right, give them x % 3 extra food, retry with 15% chance of exit. 
+    */
+
+    /* // old code
+    // only reset the game if they got it right immediately. 
+    if ( !(retryCounter == 0 && prevRetryCounter > 3) 
+            && (random(0, 100) < 40))
+    {
+    */
     // fill touchpad_sequence
-    retryCounter = 0;
     for (int i = 0; i < sequenceLength; ++i)
     {
+        /*if (random(0,100) < 50) 
+        { // bias correct
+          touchpad_sequence[0] = hub.BUTTON_LEFT;//touchpads[0];
+        }
+        else 
+        {*/
         random_shuffle(&touchpads[0], &touchpads[3]);
         touchpad_sequence[i] = touchpads[0];
+        //}
     }
-  } else {
+    //}
+    retryCounter = 0; // seems redundant
+  } else { // same game
     Log.info("Doing a retry game");
   }
 
@@ -361,33 +419,37 @@ bool playSymon(){
   // turn off the cue light
   hub.SetLights(hub.LIGHT_CUE,0,0,0);
 
-  // turn on the touchpad lights at start intensity
-  hub.SetLightsRGB(
-    hub.LIGHT_BTNS,
-    START_INTENSITY_RED,
-    START_INTENSITY_GREEN,
-    START_INTENSITY_BLUE,
-    SLEW);
+  if (timeout)
+  {
+    // turn on the touchpad lights at start intensity
+    hub.SetLightsRGB(
+      hub.LIGHT_BTNS,
+      START_INTENSITY_RED,
+      START_INTENSITY_GREEN,
+      START_INTENSITY_BLUE,
+      SLEW);
 
-  // wait until: a button is currently pressed
-  yield_wait_for(hub.AnyButtonPressed(), false);
-  if(hub.AnyButtonPressed()){
-    touchLog[touchLogIndex] = hub.AnyButtonPressed();
-    touchLogTimes[touchLogIndex] = 0;
-    touchLogIndex++;
-    // Record start timestamp for performance logging
+    // wait until: a button is currently pressed
+    yield_wait_for(hub.AnyButtonPressed(), false);
+    if(hub.AnyButtonPressed()){
+      touchLog[touchLogIndex] = hub.AnyButtonPressed();
+      touchLogTimes[touchLogIndex] = 0;
+      touchLogIndex++;
+      // Record start timestamp for performance logging
+      timestampBefore = millis();
+    }
+
+    // turn off all touchpad lights
+    hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
+
+    // slight delay to prevent double presses to show up as a miss
+    yield_sleep_ms(100, false);
+
+    // wait until: no button is currently pressed
+    yield_wait_for((!hub.AnyButtonPressed()), false);
+  } else {
     timestampBefore = millis();
   }
-
-  // turn off all touchpad lights
-  hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0);
-
-  // slight delay to prevent double presses to show up as a miss
-  yield_sleep_ms(100, false);
-
-  // wait until: no button is currently pressed
-  yield_wait_for((!hub.AnyButtonPressed()), false);
-
 
 //------------------------------------------------------------------------------
     // SEE PHASE
@@ -432,6 +494,9 @@ bool playSymon(){
     (random(0,RESPONSE_PHASE_WAIT_TIME[currentLevel % 10]))+50,
     false);
 
+  // yield_sleep_ms(1300, false);
+  // wait time before response phase and detect touches
+  yield_wait_for_with_timeout(hub.AnyButtonPressed(), random(50,2800),false);
   if(hub.AnyButtonPressed()){
     touchLog[touchLogIndex] = hub.AnyButtonPressed();
     touchLogTimes[touchLogIndex] = millis() - timestampBefore;
@@ -451,13 +516,6 @@ bool playSymon(){
   // wait until: no button is currently pressed
   yield_wait_for((!hub.AnyButtonPressed()), false);
 
-    // illuminate cue light White
-  hub.SetLightsRGB(
-    hub.LIGHT_CUE,
-    CUE_LIGHT_RESPONSE_INTENSITY_RED,
-    CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
-    CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
-    SLEW);
 
   if(!presentMisses){
     // delay after turning cue light to white
@@ -470,9 +528,19 @@ bool playSymon(){
       yield_wait_for((!hub.AnyButtonPressed()), false);
 
       // turn on response hint, see game logic table for intensity calculation
-      if (currentLevel < 20){
-       hintIntensityMultipl = HINT_INTENSITY_MULTIPL_1[currentLevel % 10];
-      } else {
+      if (currentLevel < 20)
+      {
+        if (HINT_INTENSITY_MULTIPL_1[currentLevel % 10] > 0)
+        {
+          hintIntensityMultipl = random(0, HINT_INTENSITY_MULTIPL_1[currentLevel % 10]);
+        }
+        else
+        {
+          hintIntensityMultipl = 0;
+        }
+      }
+      else
+      {
        hintIntensityMultipl = HINT_INTENSITY_MULTIPL_2[currentLevel % 10];
       }
 
@@ -504,8 +572,15 @@ bool playSymon(){
         hub.PlayAudio(hub.AUDIO_DO, 90);
         yield_sleep_ms(SOUND_DO_DELAY, false);
         hub.PlayAudio(hub.AUDIO_DO, 90);
+        hub.SetLightsRGB(
+          hub.LIGHT_CUE,
+          CUE_LIGHT_RESPONSE_INTENSITY_RED,
+          CUE_LIGHT_RESPONSE_INTENSITY_GREEN,
+          CUE_LIGHT_RESPONSE_INTENSITY_BLUE,
+          SLEW);
         yield_sleep_ms(SOUND_DO_DELAY, false);
         dodoSoundPlayed = true;
+        // illuminate cue light White
       }
 
       timestampTouchpad = millis();
@@ -513,7 +588,21 @@ bool playSymon(){
       {
           // detect any buttons currently pressed
           pressed[sequence_pos] = hub.AnyButtonPressed();
+          /*
           // use yields statements any time the hub is pausing or waiting
+          if ( hintIntensityMultipl == 0 && ((millis() - timestampBefore) > HINT_WAIT * (timedHintCount + 1) ))
+          {
+            timedHintCount++;
+            hub.SetLightsRGB(
+              touchpad_sequence[sequence_pos],
+              TARGET_RESPONSE_INTENSITY_RED/4,
+              TARGET_RESPONSE_INTENSITY_GREEN/4,
+              TARGET_RESPONSE_INTENSITY_BLUE/4,
+              SLEW);
+            yield_sleep_ms(60, false);
+            hub.SetLights(hub.LIGHT_BTNS, 0, 0, 0); // turn off all touchpad lights
+          }*/
+
           yield(false);
       }
       while (!(pressed[sequence_pos] != 0) //0 if any touchpad is touched
@@ -632,9 +721,35 @@ bool playSymon(){
     hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
     // give the Hub a moment to finish playing the reward sound
     yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+    
+    for (i_i = 0; i_i < streakCounter; i_i++)
+    {
+      hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
+      // give the Hub a moment to finish playing the reward sound
+      yield_sleep_ms(SOUND_AUDIO_POSITIVE_DELAY, false);
+    }
 
-    foodtreatPresented = (((int)(rand() % 100)) <= REINFORCE_RATIO);
-    if(foodtreatPresented){
+    // make sure to reward an extended effort TODO: change to constant
+    foodtreatPresented = retryCounter > 3 || (int)(((int)(rand() % 100)) <= (REINFORCE_RATIO + streakCounter * 10));
+
+    if(foodtreatPresented)
+    {
+      
+      for (i_i = 0; i_i < (streakCounter); i_i++)
+      {
+        if (retryCounter > 6 || streakCounter > 4 && random(0,100) < STREAK_BONUS_PERCENT)  
+        {
+          Log.info("Dispensing extra food to dish");
+          foodtreatPresented++;
+          hub.ResetFoodMachine();
+          yield_sleep_ms(400, false);
+          yield_wait_for((hub.IsReady()
+                  && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
+          break;
+
+        }
+      }
+      
       Log.info("Dispensing foodtreat");
 
       hub.PlayAudio(hub.AUDIO_POSITIVE, AUDIO_VOLUME);
@@ -654,15 +769,26 @@ bool playSymon(){
       } else {
         Log.info("Treat was not eaten");
         foodtreatWasEaten = false;
+        hub.ResetFoodMachine();
+        yield_sleep_ms(500, false);
+        yield_wait_for((hub.IsReady()
+          && hub.FoodmachineState() == hub.FOODMACHINE_IDLE), false);
       }
     } else {
       Log.info("No foodtreat this time (REINFORCE_RATIO)");
     }
   } else {
     if (!timeout) {
-      hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
-      // give the Hub a moment to finish playing the sound
-      yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
+      if (retryCounter < 3 || random(0,100) > (retryCounter * 10)) // very gentle negative feedback most of the time
+      {
+        hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME/6);
+        yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY/2, false);
+      }
+      else // less gentle negative feedback
+      {
+        hub.PlayAudio(hub.AUDIO_NEGATIVE, AUDIO_VOLUME);
+        yield_sleep_ms(SOUND_AUDIO_NEGATIVE_DELAY, false);
+      }
       foodtreatWasEaten = false;
     }
   }
@@ -703,7 +829,6 @@ bool playSymon(){
     extra += String(REINFORCE_RATIO);
     extra += String::format("\",\"retryGame\":%d", retryCounter);
 
-
     extra += "}";
 
     // Log.info(extra);
@@ -723,13 +848,55 @@ bool playSymon(){
   // keep track of performance and retry games
   if(!timeout){
 
-    addResultToPerformanceHistory(accurate);
+    if (currentLevel > 12 && presentMisses == 0)
+    {
+      addResultToPerformanceHistory(accurate);
+    } 
+    else if (currentLevel <= 12)
+    {
+      addResultToPerformanceHistory(accurate);
+    }
 
+    if (presentMisses > 0) 
+    {
+      focusPuzzle = true;
+      // immediately retry
+      // no increment of retryCounter, as it wasn't really a "wrong" guess
+    }
+    else 
+    {
     // always do a retry when we the player got it wrong else reset it
+    prevRetryCounter = retryCounter;
     if(!accurate)
-      retryCounter++;
-    else
+    {
+      if ((!focusPuzzle && random(0, 100) > DEFAULT_CORRECTION_EXIT_PERCENT) 
+          || (focusPuzzle && random(0, 100) > FOCUS_CORRECTION_EXIT_PERCENT))
+      {
+        retryCounter++;
+        focusPuzzle = true;
+      }
+      else
+      {
+        retryCounter = 0;
+        focusPuzzle = false;
+      }
+      
+      streakCounter = 0;
+    }
+    else // successful interaction!
+    {
+      if (streakCounter > 0 && random(0, 100) < (FOCUS_SUCCESS_EXIT_PERCENT * max(1, ((currentLevel % 10) - 5) ))  || streakCounter > 7)  // stop repeating more often as level increases above 5
+      {
+        focusPuzzle = false;
+      } 
+      else
+      {
+        focusPuzzle = true;
+      }
+      streakCounter++;
       retryCounter = 0;
+    }
+  }
   }
 
   // adjust level according to performance
@@ -738,7 +905,7 @@ bool playSymon(){
     currentLevel++;
     resetPerformanceHistory();
   } else if (countMisses() >= TOO_MANY_MISSES) {
-    if (currentLevel > 10)
+    if (currentLevel > MIN_LEVEL)
     {
       Log.info("Decreasing level! %u", currentLevel);
       currentLevel--;
@@ -754,6 +921,11 @@ bool playSymon(){
   }
 
   hub.SetDIResetLock(false);  // allow DI board to reset if needed between interactions
+
+  // slow down the game if player is getting it wrong to discourage guessing
+  if (prevRetryCounter > 1)
+    yield_sleep_ms(1200 * min((retryCounter-1)*(retryCounter-1), 100), false);
+
   yield_finish();
   return true;
 }
@@ -761,11 +933,13 @@ bool playSymon(){
 
 /**
  * Setup function
- * --------------
+ * -------------
  */
 void setup() {
-  // Initializes the hub and passes the current filename as ID for reporting
   hub.Initialize(__FILE__);
+  hub.ResetFoodMachine();
+  Particle.function("giveFood", giveFood);
+  // Initializes the hub and passes the current filename as ID for reporting
 }
 
 /**
